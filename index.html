@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project 1: Mastermind</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/app.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>Project 1: Mastermind</h1>
+  </header>
+  <main>
+    <div id="gameBoard">
+      <div id="whatRound">Round <span></span> (of 10)
+      </div>
+      <div id="theBoard">Actual Board
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+        <div class="boardPiece"></div>
+      </div>
+      <div id="thisResult">Result
+        <div class="result">2 0 1 0</div>
+        <div class="result">2 0 1 0</div>
+        <div class="result">2 0 1 0</div>
+        <div class="result">2 0 1 0</div>
+        <div class="result">2 0 1 0</div>
+        <div class="result">2 0 1 0</div>
+        <div class="result">2 0 1 0</div>
+        <div class="result">2 0 1 0</div>
+        <div class="result">2 0 1 0</div>
+        <div class="result">2 0 1 0</div>
+      </div>
+      <div id="theAnswer">
+        NOPE or YES <small>(<---- the answer)</small>
+      </div>
+    </div>
+    <div id="gameSidebar">
+      <div id="color-choices">
+        <h2>Colors to choose from</h2>
+        <div>white</div>
+        <div>black</div>
+        <div>red</div>
+        <div>blue</div>
+        <div>yellow</div>
+        <div>green</div>
+      </div>
+      <details class="rules">
+        <summary>Need to refresh on the rules?</summary>
+        <ol>
+          <li>Guess the colors in the code.</li>
+          <li>A <mark>something</mark> means that color is exactly right</li>
+          <li>A <mark>something else</mark> means that color is sort of right</li>
+          <li>A <mark>different something</mark> means that color is wrong</li>
+          <li>The <em>order</em> of those results doesn't mean that's the spot that color is in…</li>
+          <li>No code will have any "blanks".</li>
+          <li>No code will have duplicated colors.</li>
+        </ol>
+      </details>
+    </div>
+  </main>
+  <aside>
+    <button id="playAgain">Reset/Play again?</button>
+  </aside>
+</body>
+
+</html>
