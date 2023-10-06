@@ -45,7 +45,7 @@ init();
 
 function init() {
   console.log('…initialized')
-  currentRound = 10;
+  currentRound = 1;
   console.log(`It's round ${currentRound}`)
 
 currentGuess = '';
