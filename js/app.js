@@ -83,6 +83,7 @@ function renderRound(round) {
   // currentRoundEl.innerHTML = `<strong>${round}</strong>`;
 }
 
+// generate a new 4-digit code
 function makeNewCode() {
   // make a copy of constant COLORS object array
   let masterCopy = [];
@@ -94,22 +95,24 @@ function makeNewCode() {
     }
   }
 
-  // helper to get random number bt 1-6
+  // get random number bt 1-6 (the length of the COLORS array except for 0, the one falsy value)
   function getRandIdx() {
     return Math.floor(Math.random() * masterCopy.length);
   }
 
-  // make a dest array
+  // make a dest. array
   const resultArray = [0, 0, 0, 0];
-  // fill each index of result up to length 4 (0-3)
+  // for each slot, 
   for (let i = 0; i < CODE_LENGTH; i++) {
     // get a new random index
     let randomIdx = getRandIdx();
     // add @ that index to result AND
-    // update masterCopy w/ spliced copy @ same time
+    // update masterCopy w/ spliced version
+    // (splicing an arr *removes* it from arr, so that automatically prevents duplicates)
     resultArray[i] = masterCopy.splice(randomIdx, 1);
   };
-  return resultArray.join('-');
+
+  return resultArray.flat();
 
 }
 
@@ -118,5 +121,3 @@ function codeIntoColors(array) {
   let result = resultArray.map(digit => COLORS[digit]);
   return result.join('-').toUpperCase();
 }
-
-makeNewCode();
