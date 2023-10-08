@@ -5,103 +5,81 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Project 1: Mastermind</title>
-  <!-- <link rel="stylesheet" href="css/style.css"> -->
+  <link rel="stylesheet" href="css/style.css">
   <script defer src="js/app.js"></script>
 </head>
 
 <body>
-  <header>
-    <h1>Project 1: Mastermind</h1>
-  </header>
-  <main>
-    <div id="gameBoard">
-      <div id="whatRound">Round <span></span> (of 10)
-      </div>
-      <div id="theBoard">Actual Board
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-        <div class="boardPiece"></div>
-      </div>
-      <div id="thisResult">Result
-        <div class="result">2 0 1 0</div>
-        <div class="result">2 0 1 0</div>
-        <div class="result">2 0 1 0</div>
-        <div class="result">2 0 1 0</div>
-        <div class="result">2 0 1 0</div>
-        <div class="result">2 0 1 0</div>
-        <div class="result">2 0 1 0</div>
-        <div class="result">2 0 1 0</div>
-        <div class="result">2 0 1 0</div>
-        <div class="result">2 0 1 0</div>
-      </div>
-      <div id="theAnswer">
-        NOPE or YES <small>(<---- the answer)</small>
-      </div>
+  <h1>Project 1: Mastermind</h1>
+  <h2 id="whatRound">Round <span><mark>1</mark></span> of 10</h2>
+  <h3>(Results will go here: "Close! 2 1 0 2" or "You got it!")</h3>
+
+  <div id="theAnswer">
+    <div class="cell answerCell">1</div>
+    <div class="cell answerCell">2</div>
+    <div class="cell answerCell">5</div>
+    <div class="cell answerCell">4</div>
+  </div>
+
+    <div id="gameCells">
+      <!--  4 rows of 10 cells + 1 "check guess" button-->
+      <div class="cell" id="r1c1">1</div>
+      <div class="cell" id="r1c2">2</div>
+      <div class="cell" id="r1c3">3</div>
+      <div class="cell" id="r1c4">4</div>
+      
+      <div class="cell" id="r2c1">-</div>
+      <div class="cell" id="r2c2">-</div>
+      <div class="cell" id="r2c3">-</div>
+      <div class="cell" id="r2c4">-</div>
+
+      <div class="cell" id="r3c1">1</div>
+      <div class="cell" id="r3c2">2</div>
+      <div class="cell" id="r3c3">3</div>
+      <div class="cell" id="r3c4">4</div>
+
+      <div class="cell" id="r4c1">1</div>
+      <div class="cell" id="r4c2">2</div>
+      <div class="cell" id="r4c3">3</div>
+      <div class="cell" id="r4c4">4</div>
+
+      <div class="cell" id="r5c1">1</div>
+      <div class="cell" id="r5c2">2</div>
+      <div class="cell" id="r5c3">3</div>
+      <div class="cell" id="r5c4">4</div>
+
+      <div class="cell" id="r6c1">1</div>
+      <div class="cell" id="r6c2">2</div>
+      <div class="cell" id="r6c3">3</div>
+      <div class="cell" id="r6c4">4</div>
+
+      <div class="cell" id="r7c1">1</div>
+      <div class="cell" id="r7c2">2</div>
+      <div class="cell" id="r7c3">3</div>
+      <div class="cell" id="r7c4">4</div>
+
+      <div class="cell" id="r8c1">1</div>
+      <div class="cell" id="r8c2">2</div>
+      <div class="cell" id="r8c3">3</div>
+      <div class="cell" id="r8c4">4</div>
+
+      <div class="cell" id="r9c1">1</div>
+      <div class="cell" id="r9c2">2</div>
+      <div class="cell" id="r9c3">3</div>
+      <div class="cell" id="r9c4">4</div>
+
+      <div class="cell" id="r10c1">1</div>
+      <div class="cell" id="r10c2">2</div>
+      <div class="cell" id="r10c3">3</div>
+      <div class="cell" id="r10c4">4</div>
     </div>
-    <div id="gameSidebar">
-      <div id="color-choices">
-        <h2>Colors to choose from</h2>
-        <div>white</div>
-        <div>black</div>
-        <div>red</div>
-        <div>blue</div>
-        <div>yellow</div>
-        <div>green</div>
-      </div>
-      <details class="rules">
-        <summary>Need to refresh on the rules?</summary>
-        <ol>
-          <li>Guess the colors in the code.</li>
-          <li>A <mark>something</mark> means that color is exactly right</li>
-          <li>A <mark>something else</mark> means that color is sort of right</li>
-          <li>A <mark>different something</mark> means that color is wrong</li>
-          <li>The <em>order</em> of those results doesn't mean that's the spot that color is in…</li>
-          <li>No code will have any "blanks".</li>
-          <li>No code will have duplicated colors.</li>
-        </ol>
-      </details>
-    </div>
-  </main>
-  <aside>
-    <button id="playAgain">Reset/Play again?</button>
-  </aside>
+  </div>
+
+  <div id="buttons">
+    <button id="reset">Reset (or Play Again?)</button>
+    <button id="checkGuess">Check Guess</button>
+  </div>
+  <p><a href="#">Link to the rules</a></p>
 </body>
 
 </html>

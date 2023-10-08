@@ -1,87 +1,97 @@
 * {
-  --main-font: "fira sans";
-  font-family: var(--main-font), monospace;
+  --main-font: "sf mono";
+  font-family: var(--main-font, monospace);
+  /* color: white; */
   box-sizing: border-box;
+  /* background-color:ghostwhite; */
+
+  --font-size: clamp(2vmin, 14px, 3vmin);
+  --answer-cell-size: 12vmin;
+  --guess-cell-size: 5vh;
+
 }
 
 body {
-  max-width: 62rem;
-  margin: 1em auto 0;
-  padding-inline: 1em;
+  /* background-image: url('https://wallpaperaccess.com/full/5093240.jpg'); */
+  /* background-size:cover; */
+
   height: 100vh;
+  margin: 0 auto;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+
+  border: .5vmin solid blue;
 }
 
 body>* {
-  /* border: 2px solid goldenrod; */
-}
+  font-size: var(--font-size);
+  /* display: flex;
+  flex-direction: column; */
 
-main {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 2em;
-}
-
-main > * {
-  /* border: 1px solid */
-}
-
-#gameBoard {
-  display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
-  gap: 1em;
-}
-
-#gameBoard > * {
-  text-align: center;
-  /* border: 2px solid red; */
-}
-
-#theBoard {
-  height: 62vmin;
-  border: 1px solid gray;
-  background-color: lavender;
-
-}
-
-#gameSidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 2em;
-}
-
-#color-choices {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-}
-
-#color-choices h2 {
-  grid-column: 1 / -1;
 }
 
 #theAnswer {
-  grid-column: 1 / -1;
-  text-align: center;
-  font-size: 2rem;
+  /* hide/show the answer */
+  /* visibility: hidden; */
+
+  display: grid;
+  gap: 5vmin;
+  font-size: 4vmin;
+  font-weight: 700;
+  grid-template-columns: repeat(4, var(--answer-cell-size));
+  grid-row: var(--answer-cell-size);
+  margin-block-end: 3vmin;
+}
+
+#theAnswer>* {
+  border: .5vmin solid goldenrod;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
-aside {
-  margin-block-start: 2em;
-  text-align: center;
+#gameCells {
+
+  display: grid;
+  grid-template-columns: repeat(4, var(--guess-cell-size));
+  grid-template-rows: repeat(10, var(--guess-cell-size));
+  gap: 1vmin;
 }
 
-header h1 {
-  text-align: center;
-  padding-block-end: .2em;
-  border-block-end: .1em solid coral;
-  text-transform: uppercase;
-  letter-spacing: .3em;
+#gameCells>* {
+  border: .4vmin solid black;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-details:hover {
+#gameCells>div:hover {
   cursor: pointer;
 }
 
-#theAnswer small {
-  font-size: .5em;
+#buttons {
+  margin-block-start: 2vmin;
+}
+
+#buttons > * {
+  cursor: pointer;
+}
+
+p {
+  margin-block-start: auto;
+  border-block-start: .2vmin solid #e747f1;
+  width: 80vw;
+  text-align: center;
+  padding-block-start: 2vmin;
+}
+
+/* for current row / current guess */
+.active {
+
 }

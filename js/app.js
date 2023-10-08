@@ -1,19 +1,17 @@
-const docTitle = document.querySelector('body h1');
-
-console.log(`My ${docTitle.innerText.toLowerCase()}/app.js is being run…`);
-
-
 /* =======================
 /* constants
 /* =====================*/
-const COLORS = [
-  'red',
-  'white',
-  'black',
-  'blue',
-  'green',
-  'yellow',
-]
+const COLORS = {
+  0: '-',     // null
+  1: 'red',
+  2: 'white',
+  3: 'black',
+  4: 'blue',
+  5: 'green',
+  6: 'yellow',
+}
+
+const CODE_LENGTH = 4;
 
 const MAX_ROUNDS = 10;
 
@@ -34,8 +32,9 @@ let board;          // [[]]. 10 rows of 4
 /* =======================
 /* event listeners
 /* =====================*/
-// the current round
-const currentRoundEl = document.querySelector('#whatRound span');
+
+// (for guess listener: only listen if that row / those cells has/have 'active' class )
+// …then remove the listener maybe?
 
 
 /* =======================
@@ -48,31 +47,31 @@ function init() {
   currentRound = 1;
   console.log(`It's round ${currentRound}`)
 
-currentGuess = '';
+  currentGuess = '';
 
-// codeToBreak = 
+  // codeToBreak = 
 
-board =  [
-  [0,0,0,0],
-  [0,0,0,0],
-  [0,0,0,0],
-  [0,0,0,0],
-  [0,0,0,0],
-  [0,0,0,0],
-  [0,0,0,0],
-  [0,0,0,0],
-  [0,0,0,0],
-  [0,0,0,0],
-]
+  board = [
+    // 0/falsy is empty. 1–6/truthy are a color
+    [0, 0, 0, 0],  // guess 1
+    [0, 0, 0, 0],  // guess 2
+    [0, 0, 0, 0],  // guess 3
+    [0, 0, 0, 0],  // guess 4
+    [0, 0, 0, 0],  // guess 5
+    [0, 0, 0, 0],  // guess 6
+    [0, 0, 0, 0],  // guess 7
+    [0, 0, 0, 0],  // guess 8
+    [0, 0, 0, 0],  // guess 9
+    [0, 0, 0, 0],  // guess 10
+  ]
 
-render();
+  render();
 }
 
 function render() {
   console.log('\t…rendered');
 
   renderRound(currentRound);
-
   renderBoard()
 }
 
@@ -81,9 +80,43 @@ function renderBoard() {
 }
 
 function renderRound(round) {
-  currentRoundEl.innerHTML = `<strong>${round}</strong>`;
+  // currentRoundEl.innerHTML = `<strong>${round}</strong>`;
 }
 
+function makeNewCode() {
+  // make a copy of constant COLORS object array
+  let masterCopy = [];
+  for (let key in Object.keys(COLORS)) {
+    if (key === '0') {
+      continue;
+    } else {
+      masterCopy.push(key);
+    }
+  }
 
-// check if game is over
-if (currentRound++ === MAX_ROUNDS) { console.log("Game Over—sorry you didn't win!")};
+  // helper to get random number bt 1-6
+  function getRandIdx() {
+    return Math.floor(Math.random() * masterCopy.length);
+  }
+
+  // make a dest array
+  const resultArray = [0, 0, 0, 0];
+  // fill each index of result up to length 4 (0-3)
+  for (let i = 0; i < CODE_LENGTH; i++) {
+    // get a new random index
+    let randomIdx = getRandIdx();
+    // add @ that index to result AND
+    // update masterCopy w/ spliced copy @ same time
+    resultArray[i] = masterCopy.splice(randomIdx, 1);
+  };
+  return resultArray.join('-');
+
+}
+
+// turn a code into colors
+function codeIntoColors(array) {
+  let result = resultArray.map(digit => COLORS[digit]);
+  return result.join('-').toUpperCase();
+}
+
+makeNewCode();
