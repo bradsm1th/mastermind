@@ -5,7 +5,7 @@
   background-color: lightgray;
   /* color: white; */
 
-  --font-size: clamp(2vmin, 1rem, 3vmin);
+  /* --font-size: clamp(2vmin, 1rem, 3vmin); */
   --answer-cell-size: calc(8vmin + .1em);
   --guess-cell-size: calc(4vmin + .1em);
 
@@ -17,7 +17,7 @@ body {
 
   height: 100vh;
   margin: 0 auto;
-  overflow: auto;
+  /* overflow: scroll; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -71,7 +71,7 @@ body>* {
 #guessCells {
   display: grid;
   gap: 1vmin;
-  grid-template-rows: repeat(10, var(--guess-cell-size));
+  grid-template-rows: repeat(11, var(--guess-cell-size));
 }
 
 /* each row (each guess) */
@@ -94,7 +94,7 @@ body>* {
 #resultCells {
   display: grid;
   gap: 1vmin;
-  grid-template-rows: repeat(10, calc(var(--guess-cell-size) * 1));
+  grid-template-rows: repeat(11, calc(var(--guess-cell-size) * 1));
 }
 
 /* each row (each result) */
@@ -132,15 +132,17 @@ p {
 }
 
 /* for current row / current guess */
-.row.active:hover {
+#guessCells .row.active:hover {
   cursor: pointer;
 }
 
-.row.active {
+#guessCells .row.active {
   /* border: .2vmin solid black; */
 }
 
 /* for all other rows (previous or future) */
-.row:not(.active):hover {
+#guessCells .row:not(.active):hover {
   cursor: not-allowed;
+}
+#resultCells:hover {
 }
