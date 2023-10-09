@@ -12,7 +12,7 @@
 <body>
   <h1>Project 1: Mastermind</h1>
   <h2 id="whatRound">Round <span><mark>1</mark></span> of 10</h2>
-  <h3>(Results will go here: "Close! 2 1 0 2" or "You got it!")</h3>
+  <h3 id="results">(Results will go here: "Close! 2 1 0 2" or "You got it!")</h3>
 
   <div id="theAnswer">
     <div class="cell answerCell"></div>
@@ -21,57 +21,153 @@
     <div class="cell answerCell"></div>
   </div>
 
-    <div id="gameCells">
+  <div id="gameBoard">
+
+    <div id="guessCells">
+      <h4>Guesses</h4>
       <!--  4 rows of 10 cells + 1 "check guess" button-->
-      <div class="cell" id="r1c1">1</div>
-      <div class="cell" id="r1c2">2</div>
-      <div class="cell" id="r1c3">3</div>
-      <div class="cell" id="r1c4">4</div>
-      
-      <div class="cell" id="r2c1">-</div>
-      <div class="cell" id="r2c2">-</div>
-      <div class="cell" id="r2c3">-</div>
-      <div class="cell" id="r2c4">-</div>
+      <div class="row">
+        <div class="cell" id="guess1-1">1</div>
+        <div class="cell" id="guess1-2">2</div>
+        <div class="cell" id="guess1-3">3</div>
+        <div class="cell" id="guess1-4">4</div>
+      </div>
 
-      <div class="cell" id="r3c1">1</div>
-      <div class="cell" id="r3c2">2</div>
-      <div class="cell" id="r3c3">3</div>
-      <div class="cell" id="r3c4">4</div>
+      <div class="row active">
+        <div class="cell" id="guess2-1">-</div>
+        <div class="cell" id="guess2-2">-</div>
+        <div class="cell" id="guess2-3">-</div>
+        <div class="cell" id="guess2-4">-</div>
+      </div>
 
-      <div class="cell" id="r4c1">1</div>
-      <div class="cell" id="r4c2">2</div>
-      <div class="cell" id="r4c3">3</div>
-      <div class="cell" id="r4c4">4</div>
+      <div class="row">
+        <div class="cell" id="guess3-1">1</div>
+        <div class="cell" id="guess3-2">2</div>
+        <div class="cell" id="guess3-3">3</div>
+        <div class="cell" id="guess3-4">4</div>
+      </div>
 
-      <div class="cell" id="r5c1">1</div>
-      <div class="cell" id="r5c2">2</div>
-      <div class="cell" id="r5c3">3</div>
-      <div class="cell" id="r5c4">4</div>
+      <div class="row">
+        <div class="cell" id="guess4-1">1</div>
+        <div class="cell" id="guess4-2">2</div>
+        <div class="cell" id="guess4-3">3</div>
+        <div class="cell" id="guess4-4">4</div>
+      </div>
 
-      <div class="cell" id="r6c1">1</div>
-      <div class="cell" id="r6c2">2</div>
-      <div class="cell" id="r6c3">3</div>
-      <div class="cell" id="r6c4">4</div>
+      <div class="row">
+        <div class="cell" id="guess5-1">1</div>
+        <div class="cell" id="guess5-2">2</div>
+        <div class="cell" id="guess5-3">3</div>
+        <div class="cell" id="guess5-4">4</div>
+      </div>
 
-      <div class="cell" id="r7c1">1</div>
-      <div class="cell" id="r7c2">2</div>
-      <div class="cell" id="r7c3">3</div>
-      <div class="cell" id="r7c4">4</div>
+      <div class="row">
+        <div class="cell" id="guess6c1">1</div>
+        <div class="cell" id="guess6-2">2</div>
+        <div class="cell" id="guess6-3">3</div>
+        <div class="cell" id="guess6-4">4</div>
+      </div>
 
-      <div class="cell" id="r8c1">1</div>
-      <div class="cell" id="r8c2">2</div>
-      <div class="cell" id="r8c3">3</div>
-      <div class="cell" id="r8c4">4</div>
+      <div class="row">
+        <div class="cell" id="guess7c1">1</div>
+        <div class="cell" id="guess7-2">2</div>
+        <div class="cell" id="guess7-3">3</div>
+        <div class="cell" id="guess7-4">4</div>
+      </div>
 
-      <div class="cell" id="r9c1">1</div>
-      <div class="cell" id="r9c2">2</div>
-      <div class="cell" id="r9c3">3</div>
-      <div class="cell" id="r9c4">4</div>
+      <div class="row">
+        <div class="cell" id="guess8-1">1</div>
+        <div class="cell" id="guess8-2">2</div>
+        <div class="cell" id="guess8-3">3</div>
+        <div class="cell" id="guess8-4">4</div>
+      </div>
 
-      <div class="cell" id="r10c1">1</div>
-      <div class="cell" id="r10c2">2</div>
-      <div class="cell" id="r10c3">3</div>
-      <div class="cell" id="r10c4">4</div>
+      <div class="row">
+        <div class="cell" id="guess9-1">1</div>
+        <div class="cell" id="guess9-2">2</div>
+        <div class="cell" id="guess9-3">3</div>
+        <div class="cell" id="guess9-4">4</div>
+      </div>
+
+      <div class="row">
+        <div class="cell" id="guess10-1">1</div>
+        <div class="cell" id="guess10-2">2</div>
+        <div class="cell" id="guess10-3">3</div>
+        <div class="cell" id="guess10-4">4</div>
+      </div>
+    </div>
+    <div id="resultCells">
+      <h4>Results</h4>
+      <!-- one row of results (blank, white, or red) per guess -->
+      <div class="row">
+        <div class="cell" id="result1-1">1</div>
+        <div class="cell" id="result1-2">2</div>
+        <div class="cell" id="result1-3">3</div>
+        <div class="cell" id="result1-4">4</div>
+      </div>
+
+      <div class="row">
+        <div class="cell" id="result2-1">1</div>
+        <div class="cell" id="result2-2">2</div>
+        <div class="cell" id="result2-3">3</div>
+        <div class="cell" id="result2-4">4</div>
+      </div>
+
+      <div class="row">
+        <div class="cell" id="result3-1">1</div>
+        <div class="cell" id="result3-2">2</div>
+        <div class="cell" id="result3-3">3</div>
+        <div class="cell" id="result3-4">4</div>
+      </div>
+
+      <div class="row">
+        <div class="cell" id="result4-1">1</div>
+        <div class="cell" id="result4-2">2</div>
+        <div class="cell" id="result4-3">3</div>
+        <div class="cell" id="result4-4">4</div>
+      </div>
+
+      <div class="row">
+        <div class="cell" id="result5-1">1</div>
+        <div class="cell" id="result5-2">2</div>
+        <div class="cell" id="result5-3">3</div>
+        <div class="cell" id="result5-4">4</div>
+      </div>
+
+      <div class="row">
+        <div class="cell" id="result6-1">1</div>
+        <div class="cell" id="result6-2">2</div>
+        <div class="cell" id="result6-3">3</div>
+        <div class="cell" id="result6-4">4</div>
+      </div>
+
+      <div class="row">
+        <div class="cell" id="result7-1">1</div>
+        <div class="cell" id="result7-2">2</div>
+        <div class="cell" id="result7-3">3</div>
+        <div class="cell" id="result7-4">4</div>
+      </div>
+
+      <div class="row">
+        <div class="cell" id="result8-1">1</div>
+        <div class="cell" id="result8-2">2</div>
+        <div class="cell" id="result8-3">3</div>
+        <div class="cell" id="result8-4">4</div>
+      </div>
+
+      <div class="row">
+        <div class="cell" id="result9-1">1</div>
+        <div class="cell" id="result9-2">2</div>
+        <div class="cell" id="result9-3">3</div>
+        <div class="cell" id="result9-4">4</div>
+      </div>
+
+      <div class="row">
+        <div class="cell" id="result10-1">1</div>
+        <div class="cell" id="result10-2">2</div>
+        <div class="cell" id="result10-3">3</div>
+        <div class="cell" id="result10-4">4</div>
+      </div>
     </div>
   </div>
 
@@ -79,7 +175,8 @@
     <button id="reset">Reset (or Play Again?)</button>
     <button id="checkGuess">Check Guess</button>
   </div>
-  <p><a href="#">Link to the rules</a></p>
+  <p><a href="https://www.wikihow.com/Play-Mastermind"
+      title="How to Play Mastermind: 15 Steps (with Pictures) - wikiHow">Link to the rules (wikiHow)</a></p>
 </body>
 
 </html>

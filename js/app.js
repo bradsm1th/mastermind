@@ -19,8 +19,8 @@ const MAX_ROUNDS = 10;
 /* state variables
 /* =====================*/
 let codeToBreak;    // 4 randoms from COLORS
-let currentRound;   // #. of 10
-let currentGuess;   // #. of 6
+let currentRound;   // #. of 10 rows/guesses
+let currentGuess;   // #. of 6 colors
 let board;          // [[]]. 10 rows of 4 
 
 
@@ -44,14 +44,8 @@ const theAnswerEls = document.querySelectorAll('#theAnswer .answerCell');
 init();
 
 function init() {
-  console.log('…initialized')
+  // (re)set all state
   currentRound = 1;
-  console.log(`It's round ${currentRound}`)
-
-  currentGuess = '';
-
-  // codeToBreak = 
-
   board = [
     // 0/falsy is empty. 1–6/truthy are a color
     [0, 0, 0, 0],  // guess 1
@@ -65,13 +59,16 @@ function init() {
     [0, 0, 0, 0],  // guess 9
     [0, 0, 0, 0],  // guess 10
   ]
-
+  codeToBreak = makeNewCode();
+  currentGuess = '';
+  
+  console.log(`It's round ${currentRound}`)
+  console.log(`Code (number): ${codeToBreak}`)
+  
   render();
 }
 
 function render() {
-  console.log('\t…rendered');
-
   renderRound(currentRound);
   renderBoard();
 
@@ -81,9 +78,12 @@ function renderBoard() {
 
 }
 
+// change
 function renderRound(round) {
   // currentRoundEl.innerHTML = `<strong>${round}</strong>`;
 }
+
+
 
 // render answer
 function renderAnswer() {
@@ -97,9 +97,10 @@ function renderAnswer() {
 
 // generate a new 4-digit code
 function makeNewCode() {
-  // make a copy of constant COLORS object array
+  // make a copy of keys in COLORS
   let masterCopy = [];
   for (let key in Object.keys(COLORS)) {
+    // skip first one (it's the empty value '-')
     if (key === '0') {
       continue;
     } else {
@@ -116,7 +117,7 @@ function makeNewCode() {
   const resultArray = [0, 0, 0, 0];
   // for each slot, 
   for (let i = 0; i < CODE_LENGTH; i++) {
-    // get a new random index
+    // get a new random index,
     let randomIdx = getRandIdx();
     // add @ that index to result AND
     // update masterCopy w/ spliced version
@@ -129,9 +130,3 @@ function makeNewCode() {
   return codeToBreak;
 
 }
-
-// turn a code into colors
-// function codeIntoColors(array) {
-//   let result = array.map(digit => COLORS[digit]);
-//   return result.join('-').toUpperCase();
-// }

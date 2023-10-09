@@ -1,13 +1,13 @@
 * {
   --main-font: "sf mono";
   font-family: var(--main-font, monospace);
-  /* color: white; */
   box-sizing: border-box;
-  /* background-color:ghostwhite; */
+  background-color: lightgray;
+  /* color: white; */
 
   --font-size: clamp(2vmin, 14px, 3vmin);
-  --answer-cell-size: 10vmin;
-  --guess-cell-size: 5vh;
+  --answer-cell-size: 8vmin;
+  --guess-cell-size: 4vmin;
 
 }
 
@@ -28,8 +28,10 @@ body {
 
 body>* {
   font-size: var(--font-size);
-  /* display: flex;
-  flex-direction: column; */
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* width: 100vw; */
+  /* align-items: center; */
 
 }
 
@@ -53,16 +55,35 @@ body>* {
   align-items: center;
 }
 
-
-#gameCells {
+#gameBoard {
+  /* border: 3px solid purple; */
+  /* justify-items: center; */
 
   display: grid;
-  grid-template-columns: repeat(4, var(--guess-cell-size));
+  grid-template-columns: 2fr 1fr;
+  /* gap: 3vmin; */
+}
+
+#gameBoard > * {
+  /* border: 3px solid green; */
+}
+
+#guessCells {
+  display: grid;
+  gap: 1vmin;
   grid-template-rows: repeat(10, var(--guess-cell-size));
+}
+
+/* each row (each guess) */
+#guessCells>.row {
+  display: grid;
+  grid-template-columns: repeat(4, var(--guess-cell-size));
   gap: 1vmin;
 }
 
-#gameCells>* {
+/* each specific cell in the guess */
+#guessCells>.row>* {
+  gap: 1vmin;
   border: .4vmin solid black;
   border-radius: 50%;
   display: flex;
@@ -70,15 +91,35 @@ body>* {
   align-items: center;
 }
 
-#gameCells>div:hover {
-  cursor: pointer;
+#resultCells {
+  display: grid;
+  gap: 1vmin;
+  grid-template-rows: repeat(10, calc(var(--guess-cell-size) * 1));
 }
+
+/* each row (each result) */
+#resultCells>.row {
+  display: grid;
+  grid-template-columns: repeat(4, calc(var(--guess-cell-size) * 1));
+  gap: 1vmin;
+}
+
+/* each specific cell in the result */
+#resultCells>.row>* {
+  gap: 1vmin;
+  border: .4vmin solid black;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 #buttons {
   margin-block-start: 2vmin;
 }
 
-#buttons > * {
+#buttons>* {
   cursor: pointer;
 }
 
@@ -91,6 +132,15 @@ p {
 }
 
 /* for current row / current guess */
-.active {
+.row.active:hover {
+  cursor: pointer;
+}
 
+.row.active {
+  /* border: .2vmin solid black; */
+}
+
+/* for all other rows (previous or future) */
+.row:not(.active):hover {
+  cursor: not-allowed;
 }
