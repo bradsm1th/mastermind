@@ -5,9 +5,9 @@
   background-color: lightgray;
   /* color: white; */
 
-  --font-size: clamp(2vmin, 14px, 3vmin);
-  --answer-cell-size: 8vmin;
-  --guess-cell-size: 4vmin;
+  --font-size: clamp(2vmin, 1rem, 3vmin);
+  --answer-cell-size: calc(8vmin + .1em);
+  --guess-cell-size: calc(4vmin + .1em);
 
 }
 

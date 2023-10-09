@@ -20,28 +20,53 @@ const MAX_ROUNDS = 10;
 /* =====================*/
 let codeToBreak;    // 4 randoms from COLORS
 let currentRound;   // #. of 10 rows/guesses
-let currentGuess;   // #. of 6 colors
+let currentRow;     // ''. of 4 numbers that equate to COLORS[x]
+let currentCells;   // #. To update color clicks
 let board;          // [[]]. 10 rows of 4 
+
+// current cell
+
 
 
 /* =======================
 /* cached elements 
 /* =====================*/
 const theAnswerEls = document.querySelectorAll('#theAnswer .answerCell');
+// grab just the *active* row (no need to grab entire board and then ignore all but 4 cells)
+const activeRowEl = document.querySelectorAll('#guessCells .row.active');
 
 
 /* =======================
 /* event listeners
 /* =====================*/
-
-// (for guess listener: only listen if that row / those cells has/have 'active' class )
-// …then remove the listener maybe?
-
+// add 4 listeners: 1 for each cell in active row
+activeRowEl.forEach(cell => cell.addEventListener('click', handleNewColor));
 
 /* =======================
 /* functions
 /* =====================*/
 init();
+
+// change a single cell to the next color in COLORS
+
+function handleNewColor(evt) {
+  // GUARDS
+  // ignore if the actual cell wasn't clicked
+  if (!evt.target.classList.contains('cell')) { return };
+
+  // increment clicks unless at end (then start over)
+  if (evt.target.innerText < Object.keys(COLORS).length -1) {
+    evt.target.innerText++;
+  } else {
+    evt.target.innerText = 0;
+  }
+  updateColor(evt.target.innerText)
+}
+
+// change return value to next value in COLORS
+function updateColor(colorKey) {
+  console.log(`should be a color ${COLORS[colorKey]}…`)
+}
 
 function init() {
   // (re)set all state
@@ -60,11 +85,13 @@ function init() {
     [0, 0, 0, 0],  // guess 10
   ]
   codeToBreak = makeNewCode();
-  currentGuess = '';
-  
+  currentGuess = 0;
+
+  currentCell = COLORS[0];
+
   console.log(`It's round ${currentRound}`)
   console.log(`Code (number): ${codeToBreak}`)
-  
+
   render();
 }
 
@@ -75,22 +102,30 @@ function render() {
 }
 
 function renderBoard() {
+  // reset ALL guess rows
+  board.forEach(row => {
+    row.forEach((cell, idx) => {
+      activeRowEl[idx] = `${COLORS[0]}`
+    })
+  })
 
+  // update FIRST guess row
+
+  // update ALL results rows
+  return board;
 }
 
-// change
+// change round 
 function renderRound(round) {
   // currentRoundEl.innerHTML = `<strong>${round}</strong>`;
 }
-
-
 
 // render answer
 function renderAnswer() {
   theAnswerEls.forEach((cell, idx) => {
     // cell.style.backgroundColor = `${codeToBreak[idx]}`;
     cell.style.backgroundColor = `${COLORS[codeToBreak[idx]]}`;
-    cell.style.borderColor = (`${COLORS[codeToBreak[idx]]} === 'white'`) ? 'black' : `${COLORS[codeToBreak[idx]]}`;    
+    cell.style.borderColor = (`${COLORS[codeToBreak[idx]]} === 'white'`) ? 'black' : `${COLORS[codeToBreak[idx]]}`;
     // cell.style.color  = `${COLORS[codeToBreak[idx]]}`;
   })
 }
