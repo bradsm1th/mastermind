@@ -6,7 +6,7 @@
   /* background-color:ghostwhite; */
 
   --font-size: clamp(2vmin, 14px, 3vmin);
-  --answer-cell-size: 12vmin;
+  --answer-cell-size: 10vmin;
   --guess-cell-size: 5vh;
 
 }
@@ -36,13 +36,12 @@ body>* {
 #theAnswer {
   /* hide/show the answer */
   /* visibility: hidden; */
-
   display: grid;
   gap: 5vmin;
   font-size: 4vmin;
   font-weight: 700;
   grid-template-columns: repeat(4, var(--answer-cell-size));
-  grid-row: var(--answer-cell-size);
+  grid-template-rows: var(--answer-cell-size);
   margin-block-end: 3vmin;
 }
 

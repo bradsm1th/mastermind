@@ -3,12 +3,12 @@
 /* =====================*/
 const COLORS = {
   0: '-',     // null
-  1: 'red',
+  1: 'crimson',
   2: 'white',
-  3: 'black',
-  4: 'blue',
+  3: 'darkslategray',
+  4: 'cadetblue',
   5: 'green',
-  6: 'yellow',
+  6: 'goldenrod',
 }
 
 const CODE_LENGTH = 4;
@@ -27,6 +27,7 @@ let board;          // [[]]. 10 rows of 4
 /* =======================
 /* cached elements 
 /* =====================*/
+const theAnswerEls = document.querySelectorAll('#theAnswer .answerCell');
 
 
 /* =======================
@@ -72,7 +73,8 @@ function render() {
   console.log('\t…rendered');
 
   renderRound(currentRound);
-  renderBoard()
+  renderBoard();
+
 }
 
 function renderBoard() {
@@ -81,6 +83,16 @@ function renderBoard() {
 
 function renderRound(round) {
   // currentRoundEl.innerHTML = `<strong>${round}</strong>`;
+}
+
+// render answer
+function renderAnswer() {
+  theAnswerEls.forEach((cell, idx) => {
+    // cell.style.backgroundColor = `${codeToBreak[idx]}`;
+    cell.style.backgroundColor = `${COLORS[codeToBreak[idx]]}`;
+    cell.style.borderColor = (`${COLORS[codeToBreak[idx]]} === 'white'`) ? 'black' : `${COLORS[codeToBreak[idx]]}`;    
+    // cell.style.color  = `${COLORS[codeToBreak[idx]]}`;
+  })
 }
 
 // generate a new 4-digit code
@@ -112,12 +124,14 @@ function makeNewCode() {
     resultArray[i] = masterCopy.splice(randomIdx, 1);
   };
 
-  return resultArray.flat();
+  codeToBreak = resultArray.flat();
+
+  return codeToBreak;
 
 }
 
 // turn a code into colors
-function codeIntoColors(array) {
-  let result = resultArray.map(digit => COLORS[digit]);
-  return result.join('-').toUpperCase();
-}
+// function codeIntoColors(array) {
+//   let result = array.map(digit => COLORS[digit]);
+//   return result.join('-').toUpperCase();
+// }
