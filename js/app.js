@@ -10,9 +10,7 @@ const COLORS = {
   5: 'green',
   6: 'goldenrod',
 }
-
 const CODE_LENGTH = 4;
-
 const MAX_ROUNDS = 10;
 
 /* =======================
@@ -25,11 +23,9 @@ let currentRound;   // #. of 10 rows/guesses
 let currentGuess;   // [x,x,x,x]. 4 numbers that equate to COLORS[x]
 let roundResults;   // []. 'wrong', 'exact', 'partial'
 
-
 // current cell
 // 🧐🧐🧐🧐🧐🧐🧐🧐 may not need this
 let currentCell;   // #. To update color clicks
-
 
 
 /* =======================
@@ -45,11 +41,17 @@ const allCellEls = document.querySelectorAll('#gameBoard .cell');
 // all rows; ∑ should be 20
 const allRowEls = document.querySelectorAll('#gameBoard .row');
 // grab just the active *guess* row ; ∑ should be 4
-const activeRowEls = document.querySelectorAll('#guessCells .row.active .cell');
+const activeGuessEls = document.querySelectorAll('#guessCells .row.active .cell');
 // button to check active row's guess
 const checkGuessEl = document.querySelector('#checkGuess');
 // grab just the active *results* row; ∑ should be 4
 const activeResultEls = document.querySelectorAll('#resultCells .row.active .cell');
+
+
+// .active rows (∑2: one active #guessCells row, one active #resultCells row)
+const activeRowEls = document.querySelectorAll('.row.active');
+
+
 // current round
 const currentRoundEl = document.querySelector('#message');
 // the reset button
@@ -60,7 +62,7 @@ const resetEl = document.querySelector('#reset')
 /* event listeners
 /* =====================*/
 // add 4 listeners: 1 for each cell in active row
-activeRowEls.forEach(cell => cell.addEventListener('click', handleNewColor));
+activeGuessEls.forEach(cell => cell.addEventListener('click', handleNewColor));
 
 // check guess against answer
 checkGuessEl.addEventListener('click', handleGuessCheck);
@@ -77,7 +79,7 @@ init();
 
 // check current guess (2 arrays: the guess and the answer)
 function handleGuessCheck() {
-  activeRowEls.forEach((cell, idx) => {
+  activeGuessEls.forEach((cell, idx) => {
     currentGuess[idx] = cell.innerText;
   });
   return checkGuess(currentGuess);
@@ -87,8 +89,9 @@ function handleGuessCheck() {
 function checkGuess() {
   // GUARD
   // only check once currentGuess is valid
-  if (currentGuess.includes(0)) {
-    return renderResults("That's not a valid guess");
+  if (currentGuess.includes('-')) {
+    renderResultMessage("That's not a valid guess");
+    return;
   } else {
     let valuesChecked = [];
     currentGuess.forEach((cell, idx) => {
@@ -107,16 +110,17 @@ function checkGuess() {
       }
     })
   }
-  renderRound()
-
   // handle winner (.exact = 4);
   if (roundResults.every(val => val === 'exact')) {
     console.log("YOU WON!");
     renderAnswer();
   };
 
+  // update round
+  renderRound()
+
   console.log(roundResults);
-  return renderResults(roundResults);
+  return;
 }
 
 // change a single cell to the next color in COLORS
@@ -141,7 +145,7 @@ function updateColor(colorKey) {
 
 function init() {
   // (re)set all state
-  currentRound = 1;
+  currentRound = 0;
   board = [
     // 0/falsy is empty. 1–6/truthy are a color
     [0, 0, 0, 0],  // guess 1
@@ -163,9 +167,8 @@ function init() {
   console.log(`It's round ${currentRound}`)
   console.log(`Code (number): ${codeToBreak}`)
 
-  // re-enable checkGuess button and add event listener back to it
+  // re-enable checkGuess button
   checkGuessEl.removeAttribute('disabled');
-  checkGuessEl.addEventListener('click', handleGuessCheck);
 
   // reset "reset button" text
   resetEl.innerText = "Reset";
@@ -177,7 +180,7 @@ function toggleCheckButton() {
   // if button is currently disabled, re-enable it
   if (checkGuessEl.getAttributeNames().includes('disabled')) {
     checkGuessEl.removeAttribute('disabled');
-  checkGuessEl.addEventListener('click', handleGuessCheck);
+    checkGuessEl.addEventListener('click', handleGuessCheck);
   };
   // if it's enabled, disable it
   if (!checkGuessEl.getAttributeNames().includes('disabled')) {
@@ -212,20 +215,22 @@ function renderBoard() {
 // change round 
 function renderRound() {
   // GUARD. 
-  // last round
-  if (currentRound > MAX_ROUNDS) {
-    currentRoundEl.innerHTML = "Sorry, You Lose";
-    // update reset button text to "Play again"
-    resetEl.innerText = "Play again?";
-    
-    
-    // enable/disable "check guess" button
-    toggleCheckButton()
-  
-  
-  } else {
-    currentRoundEl.innerHTML = `Round <mark>${currentRound++}</mark> of 10`;
-  }
+  // if you lose on the last round, aka GAME OVER:
+    if (currentRound === MAX_ROUNDS) {
+      currentRoundEl.innerHTML = "Sorry, You Lose";
+      resultMsgEl.innerText = "Want to try again?";
+      // change "what round?" text
+      // show answer
+      renderAnswer();
+      // change "reset button" text
+      resetEl.innerText = "Play again";
+      // toggle "check guess" button
+      toggleCheckButton();
+    // just update current round 
+    } else {
+      currentRoundEl.innerHTML = (`Round <mark>${++currentRound}</mark> of 10`);
+      renderResultMessage("Not quite—try again!");
+    }
 }
 
 // render answer
@@ -239,19 +244,27 @@ function renderAnswer() {
   })
 }
 
-// render results
-function renderResults(message) {
-  // update the message
-  resultMsgEl.innerText = message;
+// render results row
+function renderResultsRow(arr) {
 
   // update the results row
+  console.log(activeResultEls);
 
-  // activeResultEls.forEach((div, idx) => {
-  //   // this is just test code
-  //   div.innerText = `3`
-  //   console.log(div.innerText);
-  //   // …that was test code
-  // });
+  activeResultEls.forEach((div, idx) => {
+
+
+
+    // this is just test code
+    div.innerText = `3`
+    console.log(div.innerText);
+    // …that was test code
+  });
+}
+
+// render results message
+function renderResultMessage(message) {
+  // update the message
+  resultMsgEl.innerText = message;
 }
 
 // generate a new 4-digit code
@@ -291,6 +304,21 @@ function makeNewCode() {
 }
 
 // update active row to next one
+function updateActiveRow() {
+  const currentActiveRowIndexes = [];
+  const allRowsAsArray = [...allRowEls]
+
+  // activeRowEls.forEach(row => {
+  //   console.log(row.classList.contains('active'));
+  // })
+
+  allRowsAsArray.filter((row, idx) => {
+    if (row.classList.contains('active')) {
+      currentActiveRowIndexes.push(idx);
+    }
+  })
+  return currentActiveRowIndexes;
+}
 
 
 // update guessResults
