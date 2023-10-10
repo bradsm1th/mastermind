@@ -22,37 +22,52 @@ let currentRound;   // #. of 10 rows/guesses
 let roundResults;   // []. 'wrong', 'exact', 'partial'
 let currentGuess;   // [x,x,x,x]. 4 numbers that equate to COLORS[x]
 
-// current cell
-// 🧐🧐🧐🧐🧐🧐🧐🧐 may not need this
-let currentCell;   // #. To update color clicks
 
-
+/* =======================
 /* =======================
 /* cached elements 
 /* =====================*/
+/* =====================*/
 
+/* =======================
+/* the entire board
+/* =====================*/
 // result message (Game over, You win, etc.)
 const resultMsgEl = document.querySelector('#results');
-// answer cells; ∑ should be 4
-const theAnswerEls = document.querySelectorAll('#theAnswer .answerCell');
+
 // all board cells (guess and result); ∑ should be 80
 const allCellEls = document.querySelectorAll('#gameBoard .cell');
+
+// current round
+const currentRoundEl = document.querySelector('#message');
+
+/* =======================
+/* rows
+/* =====================*/
 // all rows; ∑ should be 20
 const allRowEls = document.querySelectorAll('#gameBoard .row');
 
-
-// active *guess* row ; ∑ should be 4
+// active *guess* row ; ∑ should be 4 cells
 const activeGuessEls = document.querySelectorAll('#guessCells .row.active .cell');
-// active *results* row; ∑ should be 4
+
+// active *results* row; ∑ should be 4 cells
 const activeResultEls = document.querySelectorAll('#resultCells .row.active .cell');
 
-
-// button to check active row's guess
-const checkGuessEl = document.querySelector('#checkGuess');
 // both .active rows (∑2: one active #guessCells row, one active #resultCells row)
 const activeRowEls = document.querySelectorAll('.row.active');
-// current round
-const currentRoundEl = document.querySelector('#message');
+
+/* =======================
+/* cells
+/* =====================*/
+// answer cells; ∑ should be 4
+const theAnswerEls = document.querySelectorAll('#theAnswer .answerCell');
+
+/* =======================
+/* buttons
+/* =====================*/
+// button to check active row's guess
+const checkGuessEl = document.querySelector('#checkGuess');
+
 // the reset button
 const resetEl = document.querySelector('#reset')
 
@@ -60,15 +75,12 @@ const resetEl = document.querySelector('#reset')
 /* =======================
 /* event listeners
 /* =====================*/
-// add 4 listeners: 1 for each cell in active row
-
 // check guess against answer
 checkGuessEl.addEventListener('click', handleGuessCheck);
 
 // reset game
 resetEl.addEventListener('click', init);
 
-// 
 
 /* =======================
 /* functions
@@ -78,7 +90,8 @@ init();
 // check current guess (2 arrays: the guess and the answer)
 function handleGuessCheck() {
   activeGuessEls.forEach((cell, idx) => {
-    currentGuess[idx] = cell.innerText;
+    currentGuess[idx] = `${cell.dataset.value}`;
+    // currentGuess[idx] = cell.innerText;
   });
   return checkGuess(currentGuess);
 }
@@ -91,7 +104,7 @@ function checkGuess() {
 
   // GUARD
   // only check once currentGuess is valid
-  if (currentGuess.includes('-')) {
+  if (currentGuess.includes('0')) {
     renderResultMessage("That's not a valid guess");
     return;
   } else {
@@ -228,7 +241,7 @@ function renderBoard() {
   allCellEls.forEach(cell => {
     cell.innerText = `${COLORS[0]}`;
     cell.style.backgroundColor = 'initial';
-    cell.style.olor = 'initial';
+    cell.style.color = 'initial';
   });
 
 

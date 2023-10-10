@@ -127,7 +127,7 @@ body>* {
   border: .2em solid black;
 }
 #buttons > *:hover {
-  box-shadow: .3em .3em 0vmin 0vmin blue;
+  box-shadow: .2em .2em 0vmin 0vmin blue;
 }
 
 p {
