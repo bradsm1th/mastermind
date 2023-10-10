@@ -2,10 +2,10 @@
 /* constants
 /* =====================*/
 const COLORS = {
-  0: '-',     // null
-  1: 'crimson',
-  2: 'white',
-  3: 'darkslategray',
+  0: '-',               // null. not valid
+  1: 'crimson',         // used as 'exact' in results
+  2: 'white',           // used as 'partial' in results
+  3: 'darkslategray',   // used as 'wrong' in results
   4: 'cadetblue',
   5: 'green',
   6: 'goldenrod',
@@ -22,8 +22,8 @@ let board;          // [[]]. 10 rows of 4
 let codeToBreak;    // [x,x,x,x]. 4 randoms from COLORS
 let currentRound;   // #. of 10 rows/guesses
 
-let currentGuess;     // [x,x,x,x]. 4 numbers that equate to COLORS[x]
-let roundResults;   // {}. wrong, exact, partial
+let currentGuess;   // [x,x,x,x]. 4 numbers that equate to COLORS[x]
+let roundResults;   // []. 'wrong', 'exact', 'partial'
 
 
 // current cell
@@ -35,14 +35,21 @@ let currentCell;   // #. To update color clicks
 /* =======================
 /* cached elements 
 /* =====================*/
-// the answer cells
+
+// result message (Game over, You win, etc.)
+const resultMsgEl = document.querySelector('#results');
+// the answer cells; ∑ should be 4
 const theAnswerEls = document.querySelectorAll('#theAnswer .answerCell');
-// all board cells (guess and result)
+// all board cells (guess and result); ∑ should be 80
 const allCellEls = document.querySelectorAll('#gameBoard .cell');
-// grab just the *active* row (no need to grab entire board and then ignore all but 4 cells)
+// all rows; ∑ should be 20
+const allRowEls = document.querySelectorAll('#gameBoard .row');
+// grab just the active *guess* row ; ∑ should be 4
 const activeRowEls = document.querySelectorAll('#guessCells .row.active .cell');
 // button to check active row's guess
 const checkGuessEl = document.querySelector('#checkGuess');
+// grab just the active *results* row; ∑ should be 4
+const activeResultEls = document.querySelectorAll('#resultCells .row.active .cell');
 // current round
 const currentRoundEl = document.querySelector('#message');
 // the reset button
@@ -77,30 +84,39 @@ function handleGuessCheck() {
 }
 
 // actually check current guess against codeToBreak
-function checkGuess(guess) {
+function checkGuess() {
   // GUARD
   // only check once currentGuess is valid
   if (currentGuess.includes(0)) {
-    // alert("That's not a valid guess"); 
-    return
+    return renderResults("That's not a valid guess");
   } else {
-
-    guess.forEach((cell, idx) => {
-      // if current cell is exactly correct
-      if (cell.toString() === codeToBreak[idx]) {
-        console.log(cell);
-        roundResults.exact++;
-        // …if it's in the answer but in a different spot
-      } else if (codeToBreak.includes(cell.toString())) {
-        roundResults.partial++;
-      } else {
-        // if it's not there at all
-        roundResults.wrong++;
+    let valuesChecked = [];
+    currentGuess.forEach((cell, idx) => {
+      // if current cell is wrong
+      if (!codeToBreak.includes(cell.toString())) {
+        // console.log(cell);
+        roundResults.push('wrong');
+        // …if it's exactly right
+      } else if (cell.toString() === codeToBreak[idx]) {
+        // console.log(`EXACTAMUNDO! ${cell}`);
+        roundResults.push('exact');
+        // if it's there but not in that index
+      } else if (codeToBreak.includes(cell.toString()) && !valuesChecked.includes(cell)) {
+        roundResults.push('partial');
+        valuesChecked.push(cell);
       }
     })
   }
+  renderRound()
+
+  // handle winner (.exact = 4);
+  if (roundResults.every(val => val === 'exact')) {
+    console.log("YOU WON!");
+    renderAnswer();
+  };
+
   console.log(roundResults);
-  return roundResults;
+  return renderResults(roundResults);
 }
 
 // change a single cell to the next color in COLORS
@@ -142,17 +158,32 @@ function init() {
   currentCell = COLORS[0];
   codeToBreak = makeNewCode();
   currentGuess = [0, 0, 0, 0];
-  roundResults = {
-    wrong: 0,
-    exact: 0,
-    partial: 0,
-  }
+  roundResults = [];
 
   console.log(`It's round ${currentRound}`)
   console.log(`Code (number): ${codeToBreak}`)
 
+  // re-enable checkGuess button and add event listener back to it
+  checkGuessEl.removeAttribute('disabled');
+  checkGuessEl.addEventListener('click', handleGuessCheck);
+
+  // reset "reset button" text
+  resetEl.innerText = "Reset";
 
   render();
+}
+
+function toggleCheckButton() {
+  // if button is currently disabled, re-enable it
+  if (checkGuessEl.getAttributeNames().includes('disabled')) {
+    checkGuessEl.removeAttribute('disabled');
+  checkGuessEl.addEventListener('click', handleGuessCheck);
+  };
+  // if it's enabled, disable it
+  if (!checkGuessEl.getAttributeNames().includes('disabled')) {
+    checkGuessEl.setAttribute('disabled', 'disabled');
+    checkGuessEl.removeEventListener('click', handleGuessCheck);
+  }
 }
 
 function render() {
@@ -165,10 +196,15 @@ function renderBoard() {
   // reset ALL guess rows
   allCellEls.forEach(cell => {
     cell.innerText = `${COLORS[0]}`;
-  })
+  });
+  theAnswerEls.forEach(cell => {
+    cell.innerText = `?`;
+    cell.style.backgroundColor = `initial`;
+    cell.style.borderColor = `${COLORS[6]}`;
+  });
+  resultMsgEl.innerText = "Let's play!"
 
   // reset 'active' class on guess row and result row
-
 
   return board;
 }
@@ -177,7 +213,19 @@ function renderBoard() {
 function renderRound() {
   // GUARD. 
   // last round
-  currentRoundEl.innerHTML = (currentRound > MAX_ROUNDS) ? "Sorry, You Lose" : `Round <mark>${currentRound++}</mark> of 10`;
+  if (currentRound > MAX_ROUNDS) {
+    currentRoundEl.innerHTML = "Sorry, You Lose";
+    // update reset button text to "Play again"
+    resetEl.innerText = "Play again?";
+    
+    
+    // enable/disable "check guess" button
+    toggleCheckButton()
+  
+  
+  } else {
+    currentRoundEl.innerHTML = `Round <mark>${currentRound++}</mark> of 10`;
+  }
 }
 
 // render answer
@@ -189,6 +237,21 @@ function renderAnswer() {
     cell.style.borderColor = (`${COLORS[codeToBreak[idx]]} === 'white'`) ? 'black' : `${COLORS[codeToBreak[idx]]}`;
     cell.innerText = '';
   })
+}
+
+// render results
+function renderResults(message) {
+  // update the message
+  resultMsgEl.innerText = message;
+
+  // update the results row
+
+  // activeResultEls.forEach((div, idx) => {
+  //   // this is just test code
+  //   div.innerText = `3`
+  //   console.log(div.innerText);
+  //   // …that was test code
+  // });
 }
 
 // generate a new 4-digit code
