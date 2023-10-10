@@ -133,25 +133,26 @@ function checkGuess() {
 
 // click through each available color for each cell
 function handleNewColor(evt) {
-  console.log(evt.target);
 
   // GUARDS
   // ignore if the actual cell wasn't clicked
   if (!evt.target.classList.contains('cell')) { return };
 
-  // increment clicks unless at end (then start over)
-  if (evt.target.innerText < Object.keys(COLORS).length - 1) {
-    evt.target.innerText++;
-  } else {
-    evt.target.innerText = 0;
-  }
-  updateColor(evt.target.innerText)
+  console.log(typeof evt.target.dataset.value);
+
+  // // increment clicks unless at end (then start over)
+  // if (something is < Object.keys(COLORS).length - 1) {
+  //   // evt.target.style.backgroundColor = `${COLORS[evt.target.dataset.value]}`;
+  //   // cycle through values
+  // } else {
+  //   // (if value is 6, start over)
+  // }
 }
 
 // change return value to next value in COLORS
-function updateColor(colorKey) {
-  console.log(`color needs to change to: ${COLORS[colorKey]}…`)
-}
+// function updateColor(colorKey) {
+//   console.log(`color needs to change to: ${COLORS[colorKey]}…`)
+// }
 
 function init() {
   // (re)set all state
@@ -227,6 +228,7 @@ function renderBoard() {
   allCellEls.forEach(cell => {
     cell.innerText = `${COLORS[0]}`;
     cell.style.backgroundColor = 'initial';
+    cell.style.olor = 'initial';
   });
 
 
@@ -246,7 +248,7 @@ function renderBoard() {
 // change round 
 function renderRound() {
   // GUARD. 
-  // if you lose on the last round, aka GAME OVER:
+  // if you lose on the last round, it's GAME OVER:
   if (currentRound === MAX_ROUNDS) {
     currentRoundEl.innerHTML = "Sorry, You Lose";
     resultMsgEl.innerText = "Want to try again?";
