@@ -19,9 +19,8 @@ const MAX_ROUNDS = 10;
 let board;          // [[]]. 10 rows of 4 
 let codeToBreak;    // [x,x,x,x]. 4 randoms from COLORS
 let currentRound;   // #. of 10 rows/guesses
-
-let currentGuess;   // [x,x,x,x]. 4 numbers that equate to COLORS[x]
 let roundResults;   // []. 'wrong', 'exact', 'partial'
+let currentGuess;   // [x,x,x,x]. 4 numbers that equate to COLORS[x]
 
 // current cell
 // 🧐🧐🧐🧐🧐🧐🧐🧐 may not need this
@@ -34,24 +33,24 @@ let currentCell;   // #. To update color clicks
 
 // result message (Game over, You win, etc.)
 const resultMsgEl = document.querySelector('#results');
-// the answer cells; ∑ should be 4
+// answer cells; ∑ should be 4
 const theAnswerEls = document.querySelectorAll('#theAnswer .answerCell');
 // all board cells (guess and result); ∑ should be 80
 const allCellEls = document.querySelectorAll('#gameBoard .cell');
 // all rows; ∑ should be 20
 const allRowEls = document.querySelectorAll('#gameBoard .row');
-// grab just the active *guess* row ; ∑ should be 4
+
+
+// active *guess* row ; ∑ should be 4
 const activeGuessEls = document.querySelectorAll('#guessCells .row.active .cell');
-// button to check active row's guess
-const checkGuessEl = document.querySelector('#checkGuess');
-// grab just the active *results* row; ∑ should be 4
+// active *results* row; ∑ should be 4
 const activeResultEls = document.querySelectorAll('#resultCells .row.active .cell');
 
 
-// .active rows (∑2: one active #guessCells row, one active #resultCells row)
+// button to check active row's guess
+const checkGuessEl = document.querySelector('#checkGuess');
+// both .active rows (∑2: one active #guessCells row, one active #resultCells row)
 const activeRowEls = document.querySelectorAll('.row.active');
-
-
 // current round
 const currentRoundEl = document.querySelector('#message');
 // the reset button
@@ -62,7 +61,6 @@ const resetEl = document.querySelector('#reset')
 /* event listeners
 /* =====================*/
 // add 4 listeners: 1 for each cell in active row
-activeGuessEls.forEach(cell => cell.addEventListener('click', handleNewColor));
 
 // check guess against answer
 checkGuessEl.addEventListener('click', handleGuessCheck);
@@ -87,6 +85,10 @@ function handleGuessCheck() {
 
 // actually check current guess against codeToBreak
 function checkGuess() {
+
+  // clear roundResults
+  roundResults = [];
+
   // GUARD
   // only check once currentGuess is valid
   if (currentGuess.includes('-')) {
@@ -109,6 +111,7 @@ function checkGuess() {
         valuesChecked.push(cell);
       }
     })
+    console.log(roundResults);
   }
   // handle winner (.exact = 4);
   if (roundResults.every(val => val === 'exact')) {
@@ -116,15 +119,22 @@ function checkGuess() {
     renderAnswer();
   };
 
+  // update results row
+
   // update round
   renderRound()
 
-  console.log(roundResults);
+  // update active rows
+  // updateActiveRows();
+
+
   return;
 }
 
-// change a single cell to the next color in COLORS
+// click through each available color for each cell
 function handleNewColor(evt) {
+  console.log(evt.target);
+
   // GUARDS
   // ignore if the actual cell wasn't clicked
   if (!evt.target.classList.contains('cell')) { return };
@@ -163,7 +173,6 @@ function init() {
   codeToBreak = makeNewCode();
   currentGuess = [0, 0, 0, 0];
   roundResults = [];
-
   console.log(`It's round ${currentRound}`)
   console.log(`Code (number): ${codeToBreak}`)
 
@@ -172,6 +181,19 @@ function init() {
 
   // reset "reset button" text
   resetEl.innerText = "Reset";
+
+  activeGuessEls.forEach((cell, idx) => {
+    // console.log(`hello from cell @ index ${idx}`);
+    cell.addEventListener('click', handleNewColor)
+  });
+
+
+  // where TF do i put this function? where do i need the listeners *created*?
+  activeGuessEls.forEach((cell, idx) => {
+    // console.log(`hello from cell @ index ${idx}`);
+    cell.addEventListener('click', handleNewColor)
+  });
+
 
   render();
 }
@@ -216,21 +238,21 @@ function renderBoard() {
 function renderRound() {
   // GUARD. 
   // if you lose on the last round, aka GAME OVER:
-    if (currentRound === MAX_ROUNDS) {
-      currentRoundEl.innerHTML = "Sorry, You Lose";
-      resultMsgEl.innerText = "Want to try again?";
-      // change "what round?" text
-      // show answer
-      renderAnswer();
-      // change "reset button" text
-      resetEl.innerText = "Play again";
-      // toggle "check guess" button
-      toggleCheckButton();
+  if (currentRound === MAX_ROUNDS) {
+    currentRoundEl.innerHTML = "Sorry, You Lose";
+    resultMsgEl.innerText = "Want to try again?";
+    // change "what round?" text
+    // show answer
+    renderAnswer();
+    // change "reset button" text
+    resetEl.innerText = "Play again";
+    // toggle "check guess" button
+    toggleCheckButton();
     // just update current round 
-    } else {
-      currentRoundEl.innerHTML = (`Round <mark>${++currentRound}</mark> of 10`);
-      renderResultMessage("Not quite—try again!");
-    }
+  } else {
+    currentRoundEl.innerHTML = (`Round <mark>${++currentRound}</mark> of 10`);
+    renderResultMessage("Not quite—try again!");
+  }
 }
 
 // render answer
@@ -246,19 +268,28 @@ function renderAnswer() {
 
 // render results row
 function renderResultsRow(arr) {
+  console.log(arr)
+  arr.forEach((word, idx) => {
+    switch (word) {
+      case "exact":
+        // console.log(`${COLORS[1]} <- color; idx -> ${idx}`);
+        activeResultEls[idx].style.backgroundColor = `${COLORS[1]}`;
+        activeResultEls[idx].innerText = '';
+        break;
+      case "partial":
+        // console.log(`${COLORS[2]} <- color; idx -> ${idx}`);
+        activeResultEls[idx].style.backgroundColor = `${COLORS[2]}`;
+        activeResultEls[idx].innerText = '';
+        break;
+      case "wrong":
+        // console.log(`${COLORS[3]} <- color; idx -> ${idx}`);
+        activeResultEls[idx].style.backgroundColor = `${COLORS[3]}`;
+        activeResultEls[idx].innerText = '';
+    }
+  })
 
-  // update the results row
-  console.log(activeResultEls);
-
-  activeResultEls.forEach((div, idx) => {
-
-
-
-    // this is just test code
-    div.innerText = `3`
-    console.log(div.innerText);
-    // …that was test code
-  });
+  // activeResultEls.forEach((div, idx) => {
+  // });
 }
 
 // render results message
@@ -301,23 +332,6 @@ function makeNewCode() {
 
   return codeToBreak;
 
-}
-
-// update active row to next one
-function updateActiveRow() {
-  const currentActiveRowIndexes = [];
-  const allRowsAsArray = [...allRowEls]
-
-  // activeRowEls.forEach(row => {
-  //   console.log(row.classList.contains('active'));
-  // })
-
-  allRowsAsArray.filter((row, idx) => {
-    if (row.classList.contains('active')) {
-      currentActiveRowIndexes.push(idx);
-    }
-  })
-  return currentActiveRowIndexes;
 }
 
 
