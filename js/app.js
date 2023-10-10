@@ -182,6 +182,11 @@ function init() {
   // reset "reset button" text
   resetEl.innerText = "Reset";
 
+  // reset rows
+
+
+
+
   activeGuessEls.forEach((cell, idx) => {
     // console.log(`hello from cell @ index ${idx}`);
     cell.addEventListener('click', handleNewColor)
@@ -221,7 +226,11 @@ function renderBoard() {
   // reset ALL guess rows
   allCellEls.forEach(cell => {
     cell.innerText = `${COLORS[0]}`;
+    cell.style.backgroundColor = 'initial';
   });
+
+
+
   theAnswerEls.forEach(cell => {
     cell.innerText = `?`;
     cell.style.backgroundColor = `initial`;
