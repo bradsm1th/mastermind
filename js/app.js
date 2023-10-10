@@ -120,13 +120,13 @@ function checkGuess() {
   };
 
   // update results row
+  renderResultsRow(roundResults);
 
-  // update round
+  // update round (message);
   renderRound()
 
   // update active rows
   // updateActiveRows();
-
 
   return;
 }
