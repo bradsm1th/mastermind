@@ -1,16 +1,6 @@
 /* =======================
 /* constants
 /* =====================*/
-// const COLORS = {
-//   0: '-',               // null. not valid
-//   1: 'crimson',         // used as 'exact' in results
-//   2: 'white',           // used as 'partial' in results
-//   3: 'black',          // used as 'wrong' in results
-//   4: 'blue',
-//   5: 'green',
-//   6: 'goldenrod',
-// }
-
 const COLORS = [
   'white',      // 0. used as 'partial' in results 
   'crimson',    // 1. used as 'exact' in results
@@ -19,7 +9,6 @@ const COLORS = [
   'green',
   'goldenrod'
 ]
-
 const CODE_LENGTH = 4;
 const MAX_ROUNDS = 10;
 
@@ -187,14 +176,11 @@ function checkGuess() {
   renderRound()
 
   // update active rows
-  // updateActiveRows();
-
-  return;
+  setNextActiveRows();
 }
 
 // click through each available color for each cell
 function handleNewColor(evt) {
-  console.log(`${evt.target.innerText} (before loop)`);
 
   // GUARDS
   // ignore if the actual cell wasn't clicked
@@ -361,5 +347,24 @@ function makeNewCode() {
 
 }
 
+// update next active rows to accept guesses
+function setNextActiveRows() {
+  // ============================
+  // ==========checks============
+  // ============================
+  // see what round it is
+  console.log(currentRound);
+  // see what current active rows are
+  console.log(activeRowEls);
 
-// update guessResults
+
+  // get class list of active rows
+
+  // remove listeners from them
+
+  // remove '.active' class from them
+
+  // add listener to next row
+
+  // add '.active' class to next row
+}
