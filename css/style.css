@@ -7,32 +7,32 @@
 
   /* --font-size: 2vmin, 1rem, 3vmin); */
   /* --base-font-size: 1.2rem; */
-  --answer-cell-size: calc(8vmin + .1em);
-  --guess-cell-size: calc(4vmin + .1em);
+  --answer-cell-size: calc(5vmin + .1em);
+  /* --guess-cell-size: calc(4vmin + .1em); */
   color:
 }
 
 body {
-  /* background-image: url('https://wallpaperaccess.com/full/5093240.jpg'); */
-  /* background-size:cover; */
-
-  height: 100vh;
   margin: 0 auto;
-  overflow-y: scroll;
+  border: .5em solid blue;
+  box-sizing: border-box;
+  max-width: 900px;
+  height: 100vh;
+
   display: flex;
   flex-direction: column;
-  align-items: center;
+  text-align: center;
 
-
-  border: .5em solid blue;
 }
 
 body>* {
   font-size: var(--base-font-size);
-  /* display: flex; */
+  display: flex;
   /* flex-direction: column; */
   /* width: 100vw; */
-  /* align-items: center; */
+  justify-content: center;
+
+  /* border: 1vmin solid purple; */
 
 }
 
@@ -41,7 +41,7 @@ body>* {
   /* visibility: hidden; */
   display: grid;
   gap: 5vmin;
-  font-size: 4vmin;
+  font-size: 3vmin;
   font-weight: 700;
   grid-template-columns: repeat(4, var(--answer-cell-size));
   grid-template-rows: var(--answer-cell-size);
@@ -56,82 +56,86 @@ body>* {
   align-items: center;
 }
 
+
 #gameBoard {
-  /* border: 3px solid purple; */
-  /* justify-items: center; */
+  /* border: .5em solid gold; */
+  background-color: lightgrey;
+  padding-inline: 1em;
 
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  /* gap: 3vmin; */
+  display: flex;
+  gap: 1em;
 }
 
-#gameBoard > * {
-  /* border: 3px solid green; */
+#guessCells,
+#resultCells {
+  /* border: .2em solid red; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5em;
 }
 
-#guessCells {
-  display: grid;
-  gap: 1vmin;
-  grid-template-rows: repeat(11, var(--guess-cell-size));
-}
+#guessCells .row,
+#resultCells .row {
+  /* border: .2em solid green; */
 
-/* each row (each guess) */
-#guessCells>.row {
-  display: grid;
-  grid-template-columns: repeat(4, var(--guess-cell-size));
-  gap: 1vmin;
-}
-
-/* each specific cell in the guess */
-#guessCells>.row>* {
-  gap: 1vmin;
-  border: .4vmin solid black;
-  border-radius: 50%;
   display: flex;
   justify-content: center;
-  align-items: center;
-
-  user-select: none;
 }
 
 #resultCells {
-  display: grid;
-  gap: 1vmin;
-  grid-template-rows: repeat(11, calc(var(--guess-cell-size) * 1));
+  /* border: 5px solid navy; */
+  justify-self: flex-start;
 }
 
-/* each row (each result) */
-#resultCells>.row {
-  display: grid;
-  grid-template-columns: repeat(4, calc(var(--guess-cell-size) * 1));
-  gap: 1vmin;
-}
-
-/* each specific cell in the result */
-#resultCells>.row>* {
-  gap: 1vmin;
-  border: .4vmin solid black;
-  border-radius: 50%;
+#resultCells .row {
   display: flex;
-  justify-content: center;
+  /* border: 5px solid navy; */
+  height: 100%;
   align-items: center;
 }
 
+#guessCells .row .cell {
+  border: .2em solid black;
+  padding: .4em;
+  border-radius: 50%;
+  width: 4vmin;
+  height: 4vmin;
+  margin-inline: .5em;
+
+}
+
+#resultCells .row .cell {
+  border: .1em solid black;
+  border-radius: 50%;
+  width: 2vmin;
+  height: 2vmin;
+  margin-inline: .2em;
+
+}
 
 #buttons {
-  margin-block: 1em;
+  /* border: 1em solid cyan; */
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+  font-size: clamp(14px, 2vmin, 50px);
+  margin-block-end: 2em;
 }
 
 #buttons>* {
   cursor: pointer;
   font-size: calc(var(--base-font-size) * 1.2);
   border: .2em solid black;
+  padding: .4em;
 }
-#buttons > *:hover {
+
+#buttons>*:hover {
   box-shadow: .2em .2em 0vmin 0vmin blue;
 }
+
 #checkGuess[disabled="disabled"]:hover {
-  box-shadow:none;
+  box-shadow: none;
   border-color: grey;
   cursor: not-allowed;
 }
@@ -140,7 +144,7 @@ p {
   margin-block-start: auto;
   border-block-start: .2vmin solid #e747f1;
   width: 80%;
-  text-align: center;
+  margin: 0 auto;
   padding-block-start: 1em;
 }
 
