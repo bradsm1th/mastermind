@@ -1,5 +1,5 @@
 * {
-  --main-font: "sf mono";
+  --main-font: "fira code";
   font-family: var(--main-font, monospace);
   box-sizing: border-box;
   background-color: lightgray;
@@ -9,7 +9,6 @@
   /* --base-font-size: 1.2rem; */
   --answer-cell-size: calc(5vmin + .1em);
   /* --guess-cell-size: calc(4vmin + .1em); */
-  color:
 }
 
 body {
@@ -25,9 +24,9 @@ body {
 
 }
 
-body>* {
+body > * {
   font-size: var(--base-font-size);
-  display: flex;
+  /* display: flex; */
   /* flex-direction: column; */
   /* width: 100vw; */
   justify-content: center;
@@ -39,12 +38,14 @@ body>* {
 #theAnswer {
   /* hide/show the answer */
   /* visibility: hidden; */
+  /* border: 2px solid black; */
   display: grid;
   gap: 5vmin;
   font-size: 3vmin;
   font-weight: 700;
   grid-template-columns: repeat(4, var(--answer-cell-size));
   grid-template-rows: var(--answer-cell-size);
+  margin-block-start: 2vmin;
   margin-block-end: 3vmin;
 }
 
@@ -116,8 +117,9 @@ body>* {
 
 #buttons {
   /* border: 1em solid cyan; */
-  display: flex;
-  justify-content: center;
+  /* display: flex; */
+  /* justify-content: space-between; */
+  /* width: max-content; */
   gap: 2em;
   font-size: clamp(14px, 2vmin, 50px);
   margin-block-end: 2em;
@@ -140,12 +142,14 @@ body>* {
   cursor: not-allowed;
 }
 
-p {
+p#footer {
   margin-block-start: auto;
+  /* border: .2vmin solid #e747f1; */
   border-block-start: .2vmin solid #e747f1;
   width: 80%;
-  margin: 0 auto;
+  margin-inline: auto;
   padding-block-start: 1em;
+  
 }
 
 /* for current active guess row */
