@@ -5,7 +5,8 @@
   background-color: lightgray;
   /* color: white; */
 
-  --font-size: clamp(2vmin, 1rem, 3vmin);
+  /* --font-size: 2vmin, 1rem, 3vmin); */
+  /* --base-font-size: 1.2rem; */
   --answer-cell-size: calc(8vmin + .1em);
   --guess-cell-size: calc(4vmin + .1em);
   color:
@@ -17,17 +18,17 @@ body {
 
   height: 100vh;
   margin: 0 auto;
-  /* overflow: scroll; */
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   align-items: center;
 
 
-  border: .5vmin solid blue;
+  border: .5em solid blue;
 }
 
 body>* {
-  font-size: var(--font-size);
+  font-size: var(--base-font-size);
   /* display: flex; */
   /* flex-direction: column; */
   /* width: 100vw; */
@@ -118,36 +119,39 @@ body>* {
 
 
 #buttons {
-  margin-block-start: 2vmin;
+  margin-block: 1em;
 }
 
 #buttons>* {
   cursor: pointer;
-  font-size: calc(var(--font-size) * 1.2);
+  font-size: calc(var(--base-font-size) * 1.2);
   border: .2em solid black;
 }
 #buttons > *:hover {
   box-shadow: .2em .2em 0vmin 0vmin blue;
 }
+#checkGuess[disabled="disabled"]:hover {
+  box-shadow:none;
+  border-color: grey;
+  cursor: not-allowed;
+}
 
 p {
   margin-block-start: auto;
   border-block-start: .2vmin solid #e747f1;
-  width: 80vw;
+  width: 80%;
   text-align: center;
-  padding-block-start: 2vmin;
+  padding-block-start: 1em;
 }
 
-/* for current row / current guess */
-#guessCells .row.active:hover {
-  cursor: pointer;
-}
-
+/* for current active guess row */
 #guessCells .row.active {
-  /* border: .2vmin solid black; */
+  cursor: pointer;
+  user-select: none;
 }
 
-/* for all other rows (previous or future) */
-#guessCells .row:not(.active):hover {
+/* for all other guess rows */
+#guessCells .row:not(.active) {
   cursor: not-allowed;
+  user-select: initial
 }
