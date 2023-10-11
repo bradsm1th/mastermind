@@ -129,22 +129,25 @@ function init() {
 // check current guess (2 arrays: the guess and the answer)
 function handleGuessCheck() {
   activeGuessEls.forEach((cell, idx) => {
-    currentGuess[idx] = cell.innerText;
+    currentGuess[idx] = cell.style.backgroundColor;
   });
 
-  return checkGuess(currentGuess);
+  const resultGuess = [...currentGuess];
+  console.log(`currentRound: ${currentRound}`)
+  // add current guess to board
+  board[currentRound] = resultGuess;
+
+  return checkGuess(resultGuess);
 }
 
 // actually check current guess against codeToBreak
 function checkGuess() {
 
-  // add current guess to board
-  console.log(`currentRound: ${currentRound}`)
-  board[currentRound] = currentGuess;
-
-
   // clear roundResults
   roundResults = [];
+
+  // GUARD
+  // if (currentGuess)
 
   let valuesChecked = [];
   currentGuess.forEach((cell, idx) => {
@@ -273,8 +276,8 @@ function renderAnswer(message) {
   resetEl.innerText = "Play again";
 
   theAnswerEls.forEach((cell, idx) => {
-    cell.style.backgroundColor = `${COLORS[codeToBreak[idx]]}`;
-    cell.style.borderColor = `${COLORS[codeToBreak[idx]]}`;
+    cell.style.backgroundColor = `${codeToBreak[idx]}`;
+    cell.style.borderColor = `${codeToBreak[idx]}`;
     cell.innerText = '';
   })
 }
@@ -314,17 +317,12 @@ function renderResultMessage(message) {
 // generate a new 4-digit code
 function makeNewCode() {
   // make a copy of keys in COLORS
-  let masterCopy = [];
-  for (let key in Object.keys(COLORS)) {
-    // skip first one (it's the empty value '-')
-    if (key === '0') {
-      continue;
-    } else {
-      masterCopy.push(key);
-    }
-  }
+  let masterCopy = [...COLORS];
+  masterCopy.forEach(color => {
+    
+  });
 
-  // get random number bt 1-6 (the length of the COLORS array except for 0, the one falsy value)
+  // get random number bt 0-5 (the length of the COLORS array)
   function getRandIdx() {
     return Math.floor(Math.random() * masterCopy.length);
   }
