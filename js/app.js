@@ -1,15 +1,24 @@
 /* =======================
 /* constants
 /* =====================*/
-const COLORS = {
-  0: '-',               // null. not valid
-  1: 'crimson',         // used as 'exact' in results
-  2: 'white',           // used as 'partial' in results
-  3: 'black',   // used as 'wrong' in results
-  4: 'blue',
-  5: 'green',
-  6: 'goldenrod',
-}
+// const COLORS = {
+//   0: '-',               // null. not valid
+//   1: 'crimson',         // used as 'exact' in results
+//   2: 'white',           // used as 'partial' in results
+//   3: 'black',          // used as 'wrong' in results
+//   4: 'blue',
+//   5: 'green',
+//   6: 'goldenrod',
+// }
+
+const COLORS = [
+  'white',      // 0. used as 'partial' in results 
+  'crimson',    // 1. used as 'exact' in results
+  'black',      // 2. used as 'wrong' in results
+  'blue', 
+  'green', 
+  'goldenrod'
+]
 
 const CODE_LENGTH = 4;
 const MAX_ROUNDS = 10;
@@ -90,7 +99,7 @@ init();
 
 function init() {
   // (re)set all state
-  currentRound = 0;
+  currentRound = -1;
   board = [
     // 0/falsy is empty. 1–6/truthy are a color
     [0, 0, 0, 0],  // guess 1
@@ -118,14 +127,6 @@ function init() {
   resetEl.innerText = "Reset";
 
   // reset rows
-
-
-  activeGuessEls.forEach((cell, idx) => {
-    // console.log(`hello from cell @ index ${idx}`);
-    cell.addEventListener('click', handleNewColor)
-  });
-
-
   // where TF do i put this function? where do i need the listeners *created*?
   activeGuessEls.forEach((cell, idx) => {
     // console.log(`hello from cell @ index ${idx}`);
@@ -148,13 +149,10 @@ function handleGuessCheck() {
 // actually check current guess against codeToBreak
 function checkGuess() {
 
-  // add guess to board
+  // add current guess to board
   console.log(`currentRound: ${currentRound}`)
-  if (currentRound === 1) {
-    board[currentRound-1] = currentGuess;
-  } else {
-    board[currentRound] = currentGuess;
-  }
+  board[currentRound] = currentGuess;
+
 
   // clear roundResults
   roundResults = [];
@@ -188,10 +186,6 @@ function checkGuess() {
   if (roundResults.every(val => val === 'exact')) {
     renderAnswer("YOU WON!");
   };
-
-  // can i update the guess board with each round of guesses?
-
-  // [...board[currentRound]].map((val, idx) => board[currentRound][idx] = currentGuess[idx]);
 
   // update results row
   renderResultsRow(roundResults);
@@ -250,7 +244,7 @@ function render() {
 function renderBoard() {
   // reset ALL guess rows
   allCellEls.forEach(cell => {
-    cell.innerText = `${COLORS[0]}`;
+    cell.innerText = `-`;
     cell.style.backgroundColor = 'initial';
     cell.style.color = 'initial';
   });
@@ -258,7 +252,7 @@ function renderBoard() {
   theAnswerEls.forEach(cell => {
     cell.innerText = `?`;
     cell.style.backgroundColor = `initial`;
-    cell.style.borderColor = `${COLORS[6]}`;
+    cell.style.borderColor = `${COLORS[5]}`;
   });
 
   resultMsgEl.innerText = "Let's play!"
@@ -268,22 +262,26 @@ function renderBoard() {
   allRowEls[0].classList.add('active');
   allRowEls[10].classList.add('active');
 
-  return board;
+  // return board;
 }
 
 // change round 
 function renderRound() {
   // GUARD. 
-  // if you lose on the last round, it's GAME OVER:
-  if (currentRound === MAX_ROUNDS) {
+  // if it's the first round, don't update til next call
+  if (currentRound === 0) {
+    currentRoundEl.innerHTML = (`Round ${++currentRound} (actual: ${currentRound}) of ${MAX_ROUNDS}`);
+    // if you lose on the last round, it's GAME OVER:
+  } else if (currentRound === MAX_ROUNDS) {
     renderAnswer("Sorry, You Lose");
     // toggle "check guess" button
     toggleCheckButton();
+    return;
     // just update current round 
   } else {
     currentRoundEl.innerHTML = (`Round ${currentRound + 1} (actual: ${currentRound}) of ${MAX_ROUNDS}`);
-    currentRound += 1;
     renderResultMessage("Not quite—try again!");
+    currentRound += 1;
   }
 }
 
@@ -317,12 +315,12 @@ function renderResultsRow(arr) {
         break;
       case "partial":
         // console.log(`${COLORS[2]} <- color; idx -> ${idx}`);
-        activeResultEls[idx].style.backgroundColor = `${COLORS[2]}`;
+        activeResultEls[idx].style.backgroundColor = `${COLORS[0]}`;
         activeResultEls[idx].innerText = '';
         break;
       case "wrong":
         // console.log(`${COLORS[3]} <- color; idx -> ${idx}`);
-        activeResultEls[idx].style.backgroundColor = `${COLORS[3]}`;
+        activeResultEls[idx].style.backgroundColor = `${COLORS[2]}`;
         activeResultEls[idx].innerText = '';
     }
   })
