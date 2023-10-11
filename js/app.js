@@ -15,8 +15,8 @@ const COLORS = [
   'white',      // 0. used as 'partial' in results 
   'crimson',    // 1. used as 'exact' in results
   'black',      // 2. used as 'wrong' in results
-  'blue', 
-  'green', 
+  'blue',
+  'green',
   'goldenrod'
 ]
 
@@ -157,30 +157,23 @@ function checkGuess() {
   // clear roundResults
   roundResults = [];
 
-  // GUARD
-  // only check once currentGuess is valid
-  if (currentGuess.includes('-')) {
-    renderResultMessage("That's not a valid guess");
-    return;
-  } else {
-    let valuesChecked = [];
-    currentGuess.forEach((cell, idx) => {
-      // if current cell is wrong
-      if (!codeToBreak.includes(cell.toString())) {
-        // console.log(cell);
-        roundResults.push('wrong');
-        // …if it's exactly right
-      } else if (cell.toString() === codeToBreak[idx]) {
-        // console.log(`EXACTAMUNDO! ${cell}`);
-        roundResults.push('exact');
-        // if it's there but not in that index
-      } else if (codeToBreak.includes(cell.toString()) && !valuesChecked.includes(cell)) {
-        roundResults.push('partial');
-        valuesChecked.push(cell);
-      }
-    })
-    console.log(roundResults);
-  }
+  let valuesChecked = [];
+  currentGuess.forEach((cell, idx) => {
+    // if current cell is wrong
+    if (!codeToBreak.includes(cell.toString())) {
+      // console.log(cell);
+      roundResults.push('wrong');
+      // …if it's exactly right
+    } else if (cell.toString() === codeToBreak[idx]) {
+      // console.log(`EXACTAMUNDO! ${cell}`);
+      roundResults.push('exact');
+      // if it's there but not in that index
+    } else if (codeToBreak.includes(cell.toString()) && !valuesChecked.includes(cell)) {
+      roundResults.push('partial');
+      valuesChecked.push(cell);
+    }
+  })
+  console.log(roundResults);
 
   // handle winner (.exact = 4);
   if (roundResults.every(val => val === 'exact')) {
@@ -207,19 +200,16 @@ function handleNewColor(evt) {
   // ignore if the actual cell wasn't clicked
   if (!evt.target.classList.contains('cell')) { return };
 
+
   // cycle through clicks/colors, looping at end
-  if (evt.target.innerText === '-') {
-    evt.target.innerText = '1';
-    // evt.target.style.backgroundColor = `${COLORS[1]}`
-    // evt.target.style.color = `${COLORS[1]}`
-  } else if (evt.target.innerText === '6') {
-    evt.target.innerText = '1';
-    // evt.target.style.backgroundColor = `${COLORS[6]}`
-    // evt.target.style.color = `${COLORS[6]}`
+  if (evt.target.innerText === '-' || evt.target.innerText === '5') {
+    evt.target.innerText = '0';
+    evt.target.style.backgroundColor = `${COLORS[0]}`
+    evt.target.style.color = `${COLORS[0]}`
   } else {
     evt.target.innerText++;
-    // evt.target.style.backgroundColor = `${COLORS[evt.target.innerText]}`
-    // evt.target.style.color = `${COLORS[evt.target.innerText]}`
+    evt.target.style.backgroundColor = `${COLORS[evt.target.innerText]}`
+    evt.target.style.color = `${COLORS[evt.target.innerText]}`
   }
 }
 
@@ -237,14 +227,15 @@ function toggleCheckButton() {
 }
 
 function render() {
-  renderRound(currentRound);
   renderBoard();
+  renderRound(currentRound);
 }
 
 function renderBoard() {
   // reset ALL guess rows
   allCellEls.forEach(cell => {
     cell.innerText = `-`;
+    cell.value = `0`;
     cell.style.backgroundColor = 'initial';
     cell.style.color = 'initial';
   });
@@ -296,7 +287,6 @@ function renderAnswer(message) {
   resetEl.innerText = "Play again";
 
   theAnswerEls.forEach((cell, idx) => {
-    // cell.style.backgroundColor = `${codeToBreak[idx]}`;
     cell.style.backgroundColor = `${COLORS[codeToBreak[idx]]}`;
     cell.style.borderColor = `${COLORS[codeToBreak[idx]]}`;
     cell.innerText = '';
