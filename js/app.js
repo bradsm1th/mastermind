@@ -27,7 +27,6 @@ let currentCell;
 /* cached elements 
 /* ===================================================================*/
 
-
 /* =======================
 /* the entire board
 /* =====================*/
@@ -44,16 +43,16 @@ const currentRoundEl = document.querySelector('#message');
 /* rows
 /* =====================*/
 // all rows; ∑ should be 20
-const allRowEls = document.querySelectorAll('#gameBoard .row');
+const allRowEl = document.querySelectorAll('#gameBoard .row');
 
 // guess rows;
 const guessRowEl = document.querySelector('#gameBoard #guessRows');
 
 // cells in active *guess* row ; ∑ should be 4 cells
-const activeGuessEls = document.querySelectorAll('#guessRows .row.active .cell');
+let activeGuessEls = document.querySelectorAll('#guessRows .row.active .cell');
 
 // cells in active *results* row; ∑ should be 4 cells
-const activeResultEls = document.querySelectorAll('#resultRows .row.active .cell');
+let activeResultEls = document.querySelectorAll('#resultRows .row.active .cell');
 
 // both .active rows (∑2: one active #guessCells row, one active #resultRows row)
 const activeRowEls = document.querySelectorAll('.row.active');
@@ -96,12 +95,9 @@ function init() {
   guessRowEl.removeEventListener('click', handleNewColor);
   checkGuessEl.removeEventListener('click', handleGuessCheck);
 
-
-
   // (re)set all state
   currentRound = 0;
   board = [
-    // 0/falsy is empty. 1–6/truthy are a color
     [0, 0, 0, 0],  // guess 1
     [0, 0, 0, 0],  // guess 2
     [0, 0, 0, 0],  // guess 3
@@ -117,33 +113,16 @@ function init() {
   codeToBreak = makeNewCode();
   currentGuess = [0, 0, 0, 0];
   roundResults = [];
-
+  
   // re-enable checkGuess button
   enableCheckButton();
-  // if (checkGuessEl.getAttribute('disabled')) {
-
-  //   checkGuessEl.removeAttribute('disabled');
-
-  //   checkGuessEl.style.setProperty('border-color', 'initial');
-  //   checkGuessEl.style.setProperty('box-shadow', 'initial');
-  // }
-
+  
   // reset "reset button" text
   resetEl.innerText = "Reset";
-
-
+  
   // add listeners back
   guessRowEl.addEventListener('click', handleNewColor);
   checkGuessEl.addEventListener('click', handleGuessCheck);
-
-
-  // reset rows
-
-  // ❗❗❗old
-  // activeGuessEls.forEach(cell => {
-  //   cell.addEventListener('click', handleNewColor)
-  // });
-  // ❗❗❗old
 
   // (re)render the board and the round
   render();
@@ -184,7 +163,6 @@ function checkGuess() {
       roundResults.push('partial');
       valuesChecked.push(cell);
     }
-
   })
 
   // ==========================
@@ -203,33 +181,28 @@ function checkGuess() {
     return;
   }
 
+  // These are called only if the guess is valid but wrong
   // update results text
   renderResultMessage("Not quite –— guess again!")
-
   // update round text;
   renderRound()
-
   // update results row
   renderResultsRow(roundResults);
-
   // update active rows
   setNextActiveRows();
 
   return;
 }
 
-
-
-
-
-
-
 // click through each available color for each cell
 function handleNewColor(evt) {
   // GUARDS
-  // Ignore clicks on inactive guess rows or if an actual cell wasn't clicked
+  // Ignore click if row is inactive or if an actual cell wasn't clicked
   if (!evt.target.parentElement.classList.contains('active') || (!evt.target.classList.contains('cell'))) { return; }
 
+  // REMOVE ME
+  console.log(evt.target);
+  console.log(evt.target.parentElement.classList.contains('active'));
 
   // cycle through clicks/colors, looping at end
   if (evt.target.innerText === '-' || evt.target.innerText === '5') {
@@ -243,13 +216,12 @@ function handleNewColor(evt) {
   }
 }
 
-
 // if button is currently disabled, re-enable it
 function enableCheckButton() {
   checkGuessEl.removeAttribute('disabled');
   checkGuessEl.addEventListener('click', handleGuessCheck);
   checkGuessEl.style.setProperty('border-color', 'initial');
-  checkGuessEl.style.setProperty('box-shadow', 'initial');
+  checkGuessEl.style.setProperty('boxShadow', 'initial');
 }
 
 // if it's enabled, disable it
@@ -257,7 +229,6 @@ function disableCheckButton() {
   checkGuessEl.setAttribute('disabled', 'disabled');
   checkGuessEl.removeEventListener('click', handleGuessCheck);
   checkGuessEl.style.setProperty('border-color', 'gray');
-  checkGuessEl.style.setProperty('box-shadow', 'none');
 }
 
 function render() {
@@ -282,16 +253,15 @@ function renderBoard() {
   });
 
   // reset 'active' class on first guess row and first result row
-  allRowEls.forEach(row => row.classList.remove('active'));
-  allRowEls[0].classList.add('active');
-  allRowEls[10].classList.add('active');
+  allRowEl.forEach(row => row.classList.remove('active'));
+  allRowEl[0].classList.add('active');
+  allRowEl[10].classList.add('active');
 
   // return board;
 }
 
 // change round text
 function renderRound() {
-
   if (currentRound === 0) {
     currentRoundEl.innerHTML = (`Round ${currentRound + 1} of ${MAX_ROUNDS}`);
     currentRound++;
@@ -388,44 +358,25 @@ function makeNewCode() {
 
 // update next active rows to accept guesses
 function setNextActiveRows() {
-  // ============================
-  // ==========checks============
-  // ============================
+  // get active guess row (active result row is just +10 in allRowEl)
+  // "- 1" because currentRound will have already incremented from 0 to 1 after checkGuess
+  console.log(currentRound);
+  let activeGuessIndex = currentRound - 1;
+  console.log(activeGuessIndex);
 
-  // grab indexes of both active rows
-  const activeRowIndexes = {
-    'guess': -1,
-    'result': -1,
-  }
-  // get class list of active rows
+  // // add '.active' to next two rows
+  console.log(allRowEl[activeGuessIndex + 1]);
+  console.log(allRowEl[activeGuessIndex + 10]);
+  // allRowEl[activeGuessIndex + 1].classList.add('active');
+  // allRowEl[activeGuessIndex + 10].classList.add('active');
 
+  // // remove '.active' from two rows
+  console.log(allRowEl[activeGuessIndex]);
+  console.log(allRowEl[activeGuessIndex]);
+  // allRowEl[activeGuessIndex].classList.remove('active');
+  // allRowEl[activeGuessIndex + 9].classList.remove('active');
 
-  // // update which rows are now active and which no longer are
-  // for (let row in activeRows) {
-  //   console.log(row);
-  //   // add '.active' class to next row
-  //   allRowEls[activeRows][row + 1].classList.add('active');
-  //   // add listener to next row
-  //   allRowEls[activeRows][row + 1].addEventListener('click', handleNewColor);
-
-  //   // disable user-select
-  //   allRowEls[activeRows][row].style.cursor = "not-allowed";
-
-  //   // remove '.active' class from them
-  //   allRowEls[activeRows][row].classList.remove('active');
-  //   // remove listeners from them
-  //   allRowEls[activeRows][row].removeEventListener('click', handleNewColor);
-  // };
-
-
-  // activeGuessEls.forEach(cell => {
-  //   cell.addEventListener('click', handleNewColor)
-  // });
-
-  // active guess row
-  console.log(activeRowEls[0].parentElement);
-  // active result row
-  console.log(activeRowEls[1].parentElement);
+  // see what needs to happen w/ listeners
 
 
 }
