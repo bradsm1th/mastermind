@@ -106,8 +106,6 @@ function init() {
   codeToBreak = makeNewCode();
   currentGuess = [0, 0, 0, 0];
   roundResults = [];
-  console.log(`It's round ${currentRound}`)
-  console.log(`Answer: ${codeToBreak}`)
 
   // re-enable checkGuess button
   checkGuessEl.removeAttribute('disabled');
@@ -131,10 +129,13 @@ function handleGuessCheck() {
 
   activeGuessEls.forEach((cell, idx) => {
     currentGuess[idx] = cell.style.backgroundColor;
+    if (currentGuess.includes('initial')) {
+      renderResultMessage("FYI, your guess isn't complete yet…");
+      return;
+    }
   });
 
   const resultGuess = [...currentGuess];
-  console.log(`currentRound: ${currentRound}`)
   // add current guess to board
   board[currentRound - 1] = resultGuess;
 
@@ -242,18 +243,53 @@ function renderRound() {
 
   switch (currentRound) {
     case 0:
-      console.log(`${currentRound}: It's a zero`);
-      currentRoundEl.innerHTML = (`Round (${currentRound + 1}) of ${MAX_ROUNDS}`);
-      break;
-    case 9:
-      console.log(`${currentRound}: It's a nine`);
-      currentRoundEl.innerHTML = (`Round (SWITCH 9) of ${MAX_ROUNDS}`);
+      currentRoundEl.innerHTML = (`Round ${currentRound + 1} of ${MAX_ROUNDS}`);
+      currentRound += 1;
       break;
     case 1:
-      console.log(`${currentRound++}: …should be 1`);
+      currentRound++;
+      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
       break;
+    case 2:
+      currentRound++;
+      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
+      break;
+    case 3:
+      currentRound++;
+      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
+      break;
+    case 4:
+      currentRound++;
+      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
+      break;
+    case 5:
+      currentRound++;
+      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
+      break;
+    case 6:
+      currentRound++;
+      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
+      break;
+    case 7:
+      currentRound++;
+      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
+      break;
+    case 8:
+      currentRound++;
+      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
+      break;
+    case 9:
+      currentRound++;
+      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
+      renderResultMessage("Last chance!");
+      break;
+    case 10:
+      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
     default:
       console.log(`${currentRound}: It's anything besides 0`);
+      renderAnswer("Sorry, You Lose");
+      // toggle "check guess" button
+      toggleCheckButton();
   }
 
   // ❗old
@@ -264,7 +300,6 @@ function renderRound() {
   // if (currentRound + 1 === MAX_ROUNDS) {
   //   currentRoundEl.innerHTML = (`Round ${currentRound++} of ${MAX_ROUNDS}`);
   //   // currentRound += 1;
-  //   renderResultMessage("Last chance!");
   // }
 
   // // if you lose on the last round, it's GAME OVER:
@@ -302,7 +337,6 @@ function renderAnswer(message) {
 
 // render results row
 function renderResultsRow(arr) {
-  console.log(arr)
   arr.forEach((word, idx) => {
     switch (word) {
       case "exact":
@@ -365,19 +399,31 @@ function setNextActiveRows() {
   // ============================
   // ==========checks============
   // ============================
-  // see what round it is
-  console.log(currentRound);
-  // see what current active rows are
-  console.log(activeRowEls);
 
-
+  // grab indexes of both active rows
+  const activeIndices = []
   // get class list of active rows
+  allRowEls.forEach((row, idx) => {
+    if (row.classList.contains('active')) {
+      // console.log(`Row at index ${idx} should be active`);
+      activeIndices.push(idx);
+    }
 
-  // remove listeners from them
+  });
 
-  // remove '.active' class from them
+// update which rows are now active and which no longer are
+  activeIndices.forEach(row => {
+    console.log(row);
+    // add '.active' class to next row
+    allRowEls[row + 1].classList.add('active');
+    // remove '.active' class from them
+    allRowEls[row].classList.remove('active');
+  })
+  
+  console.log(activeRowEls);
 
   // add listener to next row
 
-  // add '.active' class to next row
+  // remove listeners from them
+
 }
