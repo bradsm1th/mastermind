@@ -46,13 +46,16 @@ const currentRoundEl = document.querySelector('#message');
 // all rows; ∑ should be 20
 const allRowEls = document.querySelectorAll('#gameBoard .row');
 
+// guess rows;
+const guessRowEl = document.querySelector('#gameBoard #guessRows');
+
 // cells in active *guess* row ; ∑ should be 4 cells
-const activeGuessEls = document.querySelectorAll('#guessCells .row.active .cell');
+const activeGuessEls = document.querySelectorAll('#guessRows .row.active .cell');
 
 // cells in active *results* row; ∑ should be 4 cells
-const activeResultEls = document.querySelectorAll('#resultCells .row.active .cell');
+const activeResultEls = document.querySelectorAll('#resultRows .row.active .cell');
 
-// both .active rows (∑2: one active #guessCells row, one active #resultCells row)
+// both .active rows (∑2: one active #guessCells row, one active #resultRows row)
 const activeRowEls = document.querySelectorAll('.row.active');
 
 /* =======================
@@ -74,12 +77,14 @@ const resetEl = document.querySelector('#reset')
 /* =======================
 /* event listeners
 /* =====================*/
-// check guess against answer
+// check guess button
 checkGuessEl.addEventListener('click', handleGuessCheck);
 
 // reset game
 resetEl.addEventListener('click', init);
 
+// listen for click on any active guess cell
+guessRowEl.addEventListener('click', handleNewColor);
 
 /* =======================
 /* functions
@@ -87,6 +92,12 @@ resetEl.addEventListener('click', init);
 init();
 
 function init() {
+  // remove old listeners
+  guessRowEl.removeEventListener('click', handleNewColor);
+  checkGuessEl.removeEventListener('click', handleGuessCheck);
+
+
+
   // (re)set all state
   currentRound = 0;
   board = [
@@ -108,17 +119,33 @@ function init() {
   roundResults = [];
 
   // re-enable checkGuess button
-  checkGuessEl.removeAttribute('disabled');
+  enableCheckButton();
+  // if (checkGuessEl.getAttribute('disabled')) {
+
+  //   checkGuessEl.removeAttribute('disabled');
+
+  //   checkGuessEl.style.setProperty('border-color', 'initial');
+  //   checkGuessEl.style.setProperty('box-shadow', 'initial');
+  // }
 
   // reset "reset button" text
   resetEl.innerText = "Reset";
 
+
+  // add listeners back
+  guessRowEl.addEventListener('click', handleNewColor);
+  checkGuessEl.addEventListener('click', handleGuessCheck);
+
+
   // reset rows
-  activeGuessEls.forEach(cell => {
-    cell.addEventListener('click', handleNewColor)
-  });
 
+  // ❗❗❗old
+  // activeGuessEls.forEach(cell => {
+  //   cell.addEventListener('click', handleNewColor)
+  // });
+  // ❗❗❗old
 
+  // (re)render the board and the round
   render();
 }
 
@@ -172,7 +199,7 @@ function checkGuess() {
   // test for winner
   if (roundResults.every(val => val === 'exact')) {
     renderAnswer("!!~~ YOU WIN ~~!!");
-    toggleCheckButton();
+    disableCheckButton();
     return;
   }
 
@@ -191,12 +218,17 @@ function checkGuess() {
   return;
 }
 
+
+
+
+
+
+
 // click through each available color for each cell
 function handleNewColor(evt) {
-
   // GUARDS
-  // ignore if the actual cell wasn't clicked
-  if (!evt.target.classList.contains('cell')) { return };
+  // Ignore clicks on inactive guess rows or if an actual cell wasn't clicked
+  if (!evt.target.parentElement.classList.contains('active') || (!evt.target.classList.contains('cell'))) { return; }
 
 
   // cycle through clicks/colors, looping at end
@@ -211,19 +243,33 @@ function handleNewColor(evt) {
   }
 }
 
-function toggleCheckButton() {
-  // if button is currently disabled, re-enable it
-  if (checkGuessEl.getAttributeNames().includes('disabled')) {
-    checkGuessEl.removeAttribute('disabled');
-    checkGuessEl.addEventListener('click', handleGuessCheck);
-  };
-  // if it's enabled, disable it
-  if (!checkGuessEl.getAttributeNames().includes('disabled')) {
-    checkGuessEl.setAttribute('disabled', 'disabled');
-    checkGuessEl.removeEventListener('click', handleGuessCheck);
-    checkGuessEl.style.setProperty('border-color', 'gray');
-    checkGuessEl.style.setProperty('box-shadow', 'none');
-  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+// if button is currently disabled, re-enable it
+function enableCheckButton() {
+  checkGuessEl.removeAttribute('disabled');
+  checkGuessEl.addEventListener('click', handleGuessCheck);
+  checkGuessEl.style.setProperty('border-color', 'initial');
+  checkGuessEl.style.setProperty('box-shadow', 'initial');
+}
+
+// if it's enabled, disable it
+function disableCheckButton() {
+  checkGuessEl.setAttribute('disabled', 'disabled');
+  checkGuessEl.removeEventListener('click', handleGuessCheck);
+  checkGuessEl.style.setProperty('border-color', 'gray');
+  checkGuessEl.style.setProperty('box-shadow', 'none');
 }
 
 function render() {
@@ -272,7 +318,7 @@ function renderRound() {
     currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
     renderAnswer("Sorry, You Lose");
     // toggle "check guess" button
-    toggleCheckButton();
+    disableCheckButton();
   }
 }
 
@@ -359,7 +405,7 @@ function setNextActiveRows() {
   // ============================
 
   // grab indexes of both active rows
-  const activeRows = {
+  const activeRowIndexes = {
     'guess': -1,
     'result': -1,
   }
@@ -401,7 +447,10 @@ function setNextActiveRows() {
   //   cell.addEventListener('click', handleNewColor)
   // });
 
-  console.log(activeRowEls);
+  // active guess row
+  console.log(activeRowEls[0].parentElement);
+  // active result row
+  console.log(activeRowEls[1].parentElement);
 
 
 }

@@ -49,31 +49,31 @@ body>* {
   margin-block-end: 1em;
 }
 
-#guessCells,
-#resultCells {
+#guessRows,
+#resultRows {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.5em;
 }
 
-#guessCells .row,
-#resultCells .row {
+#guessRows .row,
+#resultRows .row {
   display: flex;
   justify-content: center;
 }
 
-#resultCells {
+#resultRows {
   justify-self: flex-start;
 }
 
-#resultCells .row {
+#resultRows .row {
   display: flex;
   height: 100%;
   align-items: center;
 }
 
-#guessCells .row .cell {
+#guessRows .row .cell {
   border: .2em solid black;
   padding: .4em;
   border-radius: 50%;
@@ -82,7 +82,7 @@ body>* {
   margin-inline: .5em;
 }
 
-#resultCells .row .cell {
+#resultRows .row .cell {
   border: .1em solid black;
   border-radius: 50%;
   width: 2vmin;
@@ -95,9 +95,9 @@ body>* {
   place-content: center;
 }
 
-#guessCells .row.active .cell:hover {
-  border-color: rgb(176, 1, 176);
-  box-shadow: .1em .1em .5vmin 0vmin blue;
+#guessRows .row.active .cell:hover {
+  /* border-color: slategray; */
+  box-shadow: .0em .0em 1vmin blueviolet;
 }
 
 #buttons {
@@ -134,13 +134,13 @@ p#footer {
 }
 
 /* for current active guess row */
-#guessCells .row.active {
+#guessRows .row.active {
   cursor: pointer;
   user-select: none;
 }
 
 /* for all other guess rows */
-#guessCells .row:not(.active) {
+#guessRows .row:not(.active) {
   cursor: not-allowed;
   user-select: initial;
 }
