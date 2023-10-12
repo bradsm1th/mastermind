@@ -141,7 +141,7 @@ function checkGuess() {
   // clear roundResults to check this guess
   roundResults = [];
 
-  // dumping ground (to avoid duplicates)
+  // process guess to *not* count duplicates more than once)
   let valuesChecked = [];
   currentGuess.forEach((cell, idx) => {
     // if current cell is wrong
@@ -157,8 +157,8 @@ function checkGuess() {
       roundResults.push('partial');
       valuesChecked.push(cell);
     }
-  })
 
+  })
 
   // ==========================
   //           GUARDS
@@ -171,8 +171,7 @@ function checkGuess() {
 
   // test for winner
   if (roundResults.every(val => val === 'exact')) {
-    console.log("!!! WINNER !!!");
-    renderAnswer("~~ YOU WIN ~~");
+    renderAnswer("!!~~ YOU WIN ~~!!");
     toggleCheckButton();
     return;
   }
@@ -222,6 +221,8 @@ function toggleCheckButton() {
   if (!checkGuessEl.getAttributeNames().includes('disabled')) {
     checkGuessEl.setAttribute('disabled', 'disabled');
     checkGuessEl.removeEventListener('click', handleGuessCheck);
+    checkGuessEl.style.setProperty('border-color', 'gray');
+    checkGuessEl.style.setProperty('box-shadow', 'none');
   }
 }
 
