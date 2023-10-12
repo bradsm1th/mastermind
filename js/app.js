@@ -113,13 +113,13 @@ function init() {
   codeToBreak = makeNewCode();
   currentGuess = [0, 0, 0, 0];
   roundResults = [];
-  
+
   // re-enable checkGuess button
   enableCheckButton();
-  
+
   // reset "reset button" text
   resetEl.innerText = "Reset";
-  
+
   // add listeners back
   guessRowEl.addEventListener('click', handleNewColor);
   checkGuessEl.addEventListener('click', handleGuessCheck);
@@ -131,7 +131,13 @@ function init() {
 // check current guess (2 arrays: the guess and the answer)
 function handleGuessCheck() {
 
-  activeGuessEls.forEach((cell, idx) => {
+  // activeGuessEls.forEach((cell, idx) => {
+  //   currentGuess[idx] = cell.style.backgroundColor;
+  // });
+
+  console.log(allRowEl[currentRound]);
+
+  [...allRowEl[currentRound].children].forEach((cell, idx) => {
     currentGuess[idx] = cell.style.backgroundColor;
   });
 
@@ -139,11 +145,14 @@ function handleGuessCheck() {
   // add current guess to board
   board[currentRound - 1] = resultGuess;
 
-  return checkGuess(resultGuess);
+  checkGuess();
 }
 
 // actually check current guess against codeToBreak
 function checkGuess() {
+  // test for incomplete guess
+  console.log(`${currentGuess} for dinner`);
+
   // clear roundResults to check this guess
   roundResults = [];
 
@@ -168,7 +177,7 @@ function checkGuess() {
   // ==========================
   //           GUARDS
   // ==========================
-  // test for incomplete guess
+
   if (currentGuess.includes('initial')) {
     renderResultMessage("FYI, that's not a complete guess…");
     return;
@@ -182,8 +191,8 @@ function checkGuess() {
   }
 
   // These are called only if the guess is valid but wrong
-  // update results text
-  renderResultMessage("Not quite –— guess again!")
+  // update round
+  currentRound++;
   // update round text;
   renderRound()
   // update results row
@@ -196,6 +205,11 @@ function checkGuess() {
 
 // click through each available color for each cell
 function handleNewColor(evt) {
+
+  // currentGuess = [0,0,0,0];
+  // currentGuess[idx] = evt.target.style.backgroundColor;
+  console.log("!!!!!!!!!!!");
+
   // GUARDS
   // Ignore click if row is inactive or if an actual cell wasn't clicked
   if (!evt.target.parentElement.classList.contains('active') || (!evt.target.classList.contains('cell'))) { return; }
@@ -262,22 +276,32 @@ function renderBoard() {
 
 // change round text
 function renderRound() {
-  if (currentRound === 0) {
-    currentRoundEl.innerHTML = (`Round ${currentRound + 1} of ${MAX_ROUNDS}`);
-    currentRound++;
-  } else if (currentRound > 0 && currentRound < 9) {
-    currentRound++;
-    currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
-  } else if (currentRound === 9) {
-    currentRound++;
-    currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
-    renderResultMessage("Last chance!");
-  } else if (currentRound === MAX_ROUNDS) {
+  console.log(currentRound);
+  currentRoundEl.innerHTML = (`Round ${currentRound + 1} of ${MAX_ROUNDS}`);
+
+  const resultMessage = (currentRound === 9) ? "Last chance!" : "Not quite – guess again!";
+  renderResultMessage(resultMessage);
+
+  if (currentRound === MAX_ROUNDS) {
     currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
     renderAnswer("Sorry, You Lose");
     // toggle "check guess" button
     disableCheckButton();
   }
+
+
+  // // ❗OLD
+  // if (currentRound === 0) {
+  //   currentRoundEl.innerHTML = (`Round ${currentRound + 1} of ${MAX_ROUNDS}`);
+  // } else if (currentRound > 0 && currentRound < 9) {
+  //   currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
+  // } else if (currentRound === MAX_ROUNDS) {
+  //   currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
+  //   renderAnswer("Sorry, You Lose");
+  //   // toggle "check guess" button
+  //   disableCheckButton();
+  // }
+  // ❗OLD
 }
 
 // render answer  
@@ -359,22 +383,26 @@ function makeNewCode() {
 // update next active rows to accept guesses
 function setNextActiveRows() {
   // get active guess row (active result row is just +10 in allRowEl)
-  // "- 1" because currentRound will have already incremented from 0 to 1 after checkGuess
-  console.log(currentRound);
-  let activeGuessIndex = currentRound - 1;
-  console.log(activeGuessIndex);
+
+  let previousGuessIndex = currentRound - 1;
+
+  // testing
+  allRowEl[previousGuessIndex].classList.remove('active');
+  allRowEl[currentRound].classList.add('active');
+  // allRowEl[previousGuessIndex+10].classList.remove('active');
+  // allRowEl[currentRound+10].classList.add('active');
 
   // // add '.active' to next two rows
-  console.log(allRowEl[activeGuessIndex + 1]);
-  console.log(allRowEl[activeGuessIndex + 10]);
-  // allRowEl[activeGuessIndex + 1].classList.add('active');
-  // allRowEl[activeGuessIndex + 10].classList.add('active');
+  // console.log(allRowEl[activeGuessIndex + 1]);
+  // console.log(allRowEl[activeGuessIndex + 10]);
+  // allRowEl[previousGuessIndex + 1].classList.add('active');
+  // allRowEl[previousGuessIndex + 10].classList.add('active');
 
   // // remove '.active' from two rows
-  console.log(allRowEl[activeGuessIndex]);
-  console.log(allRowEl[activeGuessIndex]);
-  // allRowEl[activeGuessIndex].classList.remove('active');
-  // allRowEl[activeGuessIndex + 9].classList.remove('active');
+  // console.log(allRowEl[activeGuessIndex]);
+  // console.log(allRowEl[activeGuessIndex]);
+  // allRowEl[previousGuessIndex].classList.remove('active');
+  // allRowEl[previousGuessIndex + 9].classList.remove('active');
 
   // see what needs to happen w/ listeners
 
