@@ -114,9 +114,7 @@ function init() {
   resetEl.innerText = "Reset";
 
   // reset rows
-  // where TF do i put this function? where do i need the listeners *created*?
-  activeGuessEls.forEach((cell, idx) => {
-    // console.log(`hello from cell @ index ${idx}`);
+  activeGuessEls.forEach(cell => {
     cell.addEventListener('click', handleNewColor)
   });
 
@@ -130,7 +128,7 @@ function handleGuessCheck() {
   activeGuessEls.forEach((cell, idx) => {
     currentGuess[idx] = cell.style.backgroundColor;
     if (currentGuess.includes('initial')) {
-      renderResultMessage("FYI, your guess isn't complete yet…");
+      renderResultMessage("FYI, that's not a complete guess…");
       return;
     }
   });
@@ -239,8 +237,8 @@ function renderBoard() {
 
 // change round text
 function renderRound() {
-  // GUARDs. 
 
+  // ❗old
   switch (currentRound) {
     case 0:
       currentRoundEl.innerHTML = (`Round ${currentRound + 1} of ${MAX_ROUNDS}`);
@@ -290,31 +288,9 @@ function renderRound() {
       renderAnswer("Sorry, You Lose");
       // toggle "check guess" button
       toggleCheckButton();
+    // ❗old
+
   }
-
-  // ❗old
-  // if it's the first round, don't update til next call
-  // if (currentRound === 0) {
-  // }
-
-  // if (currentRound + 1 === MAX_ROUNDS) {
-  //   currentRoundEl.innerHTML = (`Round ${currentRound++} of ${MAX_ROUNDS}`);
-  //   // currentRound += 1;
-  // }
-
-  // // if you lose on the last round, it's GAME OVER:
-  // if (currentRound === MAX_ROUNDS) {
-  //   renderAnswer("Sorry, You Lose");
-  //   // toggle "check guess" button
-  //   toggleCheckButton();
-  //   return;
-  //   // just update current round 
-  // } else {
-  //   currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
-  //   renderResultMessage("Not quite — try again!");
-  //   // currentRound += 1;
-  // }
-  // ❗old
 }
 
 // render answer  
@@ -401,29 +377,49 @@ function setNextActiveRows() {
   // ============================
 
   // grab indexes of both active rows
-  const activeIndices = []
+  const activeRows = {
+    'guess': -1,
+    'result': -1,
+  }
   // get class list of active rows
   allRowEls.forEach((row, idx) => {
-    if (row.classList.contains('active')) {
-      // console.log(`Row at index ${idx} should be active`);
-      activeIndices.push(idx);
+    // guess row only
+    if (row.classList.contains('active') && idx < 10) {
+      console.log(`${idx}: ${row}`);
+
+      // result row only
+    } else {
+      // activeRows['result'] = idx;
+      console.log(row, idx);
     }
+
+    console.log(activeRows);
 
   });
 
-// update which rows are now active and which no longer are
-  activeIndices.forEach(row => {
-    console.log(row);
-    // add '.active' class to next row
-    allRowEls[row + 1].classList.add('active');
-    // remove '.active' class from them
-    allRowEls[row].classList.remove('active');
-  })
-  
-  console.log(activeRowEls);
+  // update which rows are now active and which no longer are
+  // for (let row in activeRows) {
+  //   console.log(row);
+  //   // add '.active' class to next row
+  //   allRowEls[activeRows][row + 1].classList.add('active');
+  //   // add listener to next row
+  //   allRowEls[activeRows][row + 1].addEventListener('click', handleNewColor);
 
-  // add listener to next row
+  //   // disable user-select
+  //   allRowEls[activeRows][row].style.cursor = "not-allowed";
 
-  // remove listeners from them
+  //   // remove '.active' class from them
+  //   allRowEls[activeRows][row].classList.remove('active');
+  //   // remove listeners from them
+  //   allRowEls[activeRows][row].removeEventListener('click', handleNewColor);
+  // };
+
+
+  // activeGuessEls.forEach(cell => {
+  //   cell.addEventListener('click', handleNewColor)
+  // });
+
+  // console.log(activeRowEls);
+
 
 }

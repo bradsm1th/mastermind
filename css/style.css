@@ -166,5 +166,5 @@ p#footer {
 /* for all other guess rows */
 #guessCells .row:not(.active) {
   cursor: not-allowed;
-  user-select: initial
+  user-select: initial;
 }
