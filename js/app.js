@@ -127,10 +127,6 @@ function handleGuessCheck() {
 
   activeGuessEls.forEach((cell, idx) => {
     currentGuess[idx] = cell.style.backgroundColor;
-    if (currentGuess.includes('initial')) {
-      renderResultMessage("FYI, that's not a complete guess…");
-      return;
-    }
   });
 
   const resultGuess = [...currentGuess];
@@ -163,6 +159,16 @@ function checkGuess() {
     }
   })
 
+
+  // ==========================
+  //           GUARDS
+  // ==========================
+  // test for incomplete guess
+  if (currentGuess.includes('initial')) {
+    renderResultMessage("FYI, that's not a complete guess…");
+    return;
+  }
+
   // test for winner
   if (roundResults.every(val => val === 'exact')) {
     console.log("!!! WINNER !!!");
@@ -171,12 +177,14 @@ function checkGuess() {
     return;
   }
 
+  // update results text
+  renderResultMessage("Not quite –— guess again!")
+
+  // update round text;
+  renderRound()
 
   // update results row
   renderResultsRow(roundResults);
-
-  // update round (message);
-  renderRound()
 
   // update active rows
   setNextActiveRows();
@@ -271,7 +279,6 @@ function renderRound() {
 function renderAnswer(message) {
 
   // show a message instead of "round x of 10"
-  console.log(message);
   currentRoundEl.innerText = message;
   resultMsgEl.innerText = "Want to try again?";
 
