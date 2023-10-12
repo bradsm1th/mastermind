@@ -88,7 +88,7 @@ init();
 
 function init() {
   // (re)set all state
-  currentRound = -1;
+  currentRound = 0;
   board = [
     // 0/falsy is empty. 1–6/truthy are a color
     [0, 0, 0, 0],  // guess 1
@@ -128,6 +128,7 @@ function init() {
 
 // check current guess (2 arrays: the guess and the answer)
 function handleGuessCheck() {
+
   activeGuessEls.forEach((cell, idx) => {
     currentGuess[idx] = cell.style.backgroundColor;
   });
@@ -135,20 +136,17 @@ function handleGuessCheck() {
   const resultGuess = [...currentGuess];
   console.log(`currentRound: ${currentRound}`)
   // add current guess to board
-  board[currentRound] = resultGuess;
+  board[currentRound - 1] = resultGuess;
 
   return checkGuess(resultGuess);
 }
 
 // actually check current guess against codeToBreak
 function checkGuess() {
-
-  // clear roundResults
+  // clear roundResults to check this guess
   roundResults = [];
 
-  // GUARD
-  // if (currentGuess)
-
+  // dumping ground (to avoid duplicates)
   let valuesChecked = [];
   currentGuess.forEach((cell, idx) => {
     // if current cell is wrong
@@ -159,18 +157,12 @@ function checkGuess() {
     } else if (cell.toString() === codeToBreak[idx]) {
       // console.log(`EXACTAMUNDO! ${cell}`);
       roundResults.push('exact');
-      // if it's there but not in that index
+      // if it's there but not in that index (and not already in valuesChecked)
     } else if (codeToBreak.includes(cell.toString()) && !valuesChecked.includes(cell)) {
       roundResults.push('partial');
       valuesChecked.push(cell);
     }
   })
-  console.log(roundResults);
-
-  // handle winner (.exact = 4);
-  if (roundResults.every(val => val === 'exact')) {
-    renderAnswer("YOU WON!");
-  };
 
   // update results row
   renderResultsRow(roundResults);
@@ -217,7 +209,8 @@ function toggleCheckButton() {
 
 function render() {
   renderBoard();
-  renderRound(currentRound);
+  renderRound();
+  renderResultMessage(message = "Let's play!");
 }
 
 function renderBoard() {
@@ -232,12 +225,10 @@ function renderBoard() {
   theAnswerEls.forEach(cell => {
     cell.innerText = `?`;
     cell.style.backgroundColor = `initial`;
-    cell.style.borderColor = `${COLORS[5]}`;
+    cell.style.borderColor = `goldenrod`;
   });
 
-  resultMsgEl.innerText = "Let's play!"
-
-  // reset 'active' class on guess row and result row
+  // reset 'active' class on first guess row and first result row
   allRowEls.forEach(row => row.classList.remove('active'));
   allRowEls[0].classList.add('active');
   allRowEls[10].classList.add('active');
@@ -245,28 +236,55 @@ function renderBoard() {
   // return board;
 }
 
-// change round 
+// change round text
 function renderRound() {
-  // GUARD. 
-  // if it's the first round, don't update til next call
-  if (currentRound === 0) {
-    currentRoundEl.innerHTML = (`Round ${++currentRound} (actual: ${currentRound}) of ${MAX_ROUNDS}`);
-    // if you lose on the last round, it's GAME OVER:
-  } else if (currentRound === MAX_ROUNDS) {
-    renderAnswer("Sorry, You Lose");
-    // toggle "check guess" button
-    toggleCheckButton();
-    return;
-    // just update current round 
-  } else {
-    currentRoundEl.innerHTML = (`Round ${currentRound + 1} (actual: ${currentRound}) of ${MAX_ROUNDS}`);
-    renderResultMessage("Not quite—try again!");
-    currentRound += 1;
+  // GUARDs. 
+
+  switch (currentRound) {
+    case 0:
+      console.log(`${currentRound}: It's a zero`);
+      currentRoundEl.innerHTML = (`Round (${currentRound + 1}) of ${MAX_ROUNDS}`);
+      break;
+    case 9:
+      console.log(`${currentRound}: It's a nine`);
+      currentRoundEl.innerHTML = (`Round (SWITCH 9) of ${MAX_ROUNDS}`);
+      break;
+    case 1:
+      console.log(`${currentRound++}: …should be 1`);
+      break;
+    default:
+      console.log(`${currentRound}: It's anything besides 0`);
   }
+
+  // ❗old
+  // if it's the first round, don't update til next call
+  // if (currentRound === 0) {
+  // }
+
+  // if (currentRound + 1 === MAX_ROUNDS) {
+  //   currentRoundEl.innerHTML = (`Round ${currentRound++} of ${MAX_ROUNDS}`);
+  //   // currentRound += 1;
+  //   renderResultMessage("Last chance!");
+  // }
+
+  // // if you lose on the last round, it's GAME OVER:
+  // if (currentRound === MAX_ROUNDS) {
+  //   renderAnswer("Sorry, You Lose");
+  //   // toggle "check guess" button
+  //   toggleCheckButton();
+  //   return;
+  //   // just update current round 
+  // } else {
+  //   currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
+  //   renderResultMessage("Not quite — try again!");
+  //   // currentRound += 1;
+  // }
+  // ❗old
 }
 
 // render answer  
 function renderAnswer(message) {
+
   // show a message instead of "round x of 10"
   console.log(message);
   currentRoundEl.innerText = message;
@@ -303,9 +321,6 @@ function renderResultsRow(arr) {
         activeResultEls[idx].innerText = '';
     }
   })
-
-  // activeResultEls.forEach((div, idx) => {
-  // });
 }
 
 // render results message
@@ -319,7 +334,7 @@ function makeNewCode() {
   // make a copy of keys in COLORS
   let masterCopy = [...COLORS];
   masterCopy.forEach(color => {
-    
+
   });
 
   // get random number bt 0-5 (the length of the COLORS array)
