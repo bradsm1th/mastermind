@@ -144,3 +144,8 @@ p#footer {
   cursor: not-allowed;
   user-select: initial;
 }
+
+/* POSSIBLE dark-mode icebox feature */
+@media (prefers-color-scheme: dark) {
+/*  */
+  }

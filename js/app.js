@@ -244,18 +244,6 @@ function handleNewColor(evt) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 // if button is currently disabled, re-enable it
 function enableCheckButton() {
   checkGuessEl.removeAttribute('disabled');
@@ -409,21 +397,8 @@ function setNextActiveRows() {
     'guess': -1,
     'result': -1,
   }
-  // // get class list of active rows
-  // // allRowEls.forEach((row, idx) => {
-  // //   // guess row only
-  // //   if (row.classList.contains('active') && idx < 10) {
-  // //     console.log(`${idx}: ${row}`);
+  // get class list of active rows
 
-  // //     // result row only
-  // //   } else {
-  // //     // activeRows['result'] = idx;
-  // //     console.log(row, idx);
-  // //   }
-
-  // //   console.log(activeRows);
-
-  // // });
 
   // // update which rows are now active and which no longer are
   // for (let row in activeRows) {
