@@ -163,6 +163,15 @@ function checkGuess() {
     }
   })
 
+  // test for winner
+  if (roundResults.every(val => val === 'exact')) {
+    console.log("!!! WINNER !!!");
+    renderAnswer("~~ YOU WIN ~~");
+    toggleCheckButton();
+    return;
+  }
+
+
   // update results row
   renderResultsRow(roundResults);
 
@@ -171,6 +180,8 @@ function checkGuess() {
 
   // update active rows
   setNextActiveRows();
+
+  return;
 }
 
 // click through each available color for each cell
@@ -240,7 +251,7 @@ function renderRound() {
 
   if (currentRound === 0) {
     currentRoundEl.innerHTML = (`Round ${currentRound + 1} of ${MAX_ROUNDS}`);
-    currentRound += 1;
+    currentRound++;
   } else if (currentRound > 0 && currentRound < 9) {
     currentRound++;
     currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
