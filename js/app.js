@@ -238,58 +238,21 @@ function renderBoard() {
 // change round text
 function renderRound() {
 
-  // ❗old
-  switch (currentRound) {
-    case 0:
-      currentRoundEl.innerHTML = (`Round ${currentRound + 1} of ${MAX_ROUNDS}`);
-      currentRound += 1;
-      break;
-    case 1:
-      currentRound++;
-      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
-      break;
-    case 2:
-      currentRound++;
-      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
-      break;
-    case 3:
-      currentRound++;
-      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
-      break;
-    case 4:
-      currentRound++;
-      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
-      break;
-    case 5:
-      currentRound++;
-      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
-      break;
-    case 6:
-      currentRound++;
-      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
-      break;
-    case 7:
-      currentRound++;
-      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
-      break;
-    case 8:
-      currentRound++;
-      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
-      break;
-    case 9:
-      currentRound++;
-      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
-      renderResultMessage("Last chance!");
-      break;
-    case 10:
-      currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
-    default:
-      console.log(`${currentRound}: It's anything besides 0`);
-      renderAnswer("Sorry, You Lose");
-      // toggle "check guess" button
-      toggleCheckButton();
-    // ❗old
-
+  if (currentRound === 0) {
+    currentRoundEl.innerHTML = (`Round ${currentRound + 1} of ${MAX_ROUNDS}`);
+    currentRound += 1;
+  } else if (currentRound > 0 && currentRound < 9) {
+    currentRound++;
+    currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
+  } else if (currentRound === 9) {
+    currentRound++;
+    currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
+    renderResultMessage("Last chance!");
+  } else if (currentRound === MAX_ROUNDS) {
+    currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
+    renderAnswer("Sorry, You Lose");
+    // toggle "check guess" button
+    toggleCheckButton();
   }
 }
 
@@ -381,23 +344,23 @@ function setNextActiveRows() {
     'guess': -1,
     'result': -1,
   }
-  // get class list of active rows
-  allRowEls.forEach((row, idx) => {
-    // guess row only
-    if (row.classList.contains('active') && idx < 10) {
-      console.log(`${idx}: ${row}`);
+  // // get class list of active rows
+  // // allRowEls.forEach((row, idx) => {
+  // //   // guess row only
+  // //   if (row.classList.contains('active') && idx < 10) {
+  // //     console.log(`${idx}: ${row}`);
 
-      // result row only
-    } else {
-      // activeRows['result'] = idx;
-      console.log(row, idx);
-    }
+  // //     // result row only
+  // //   } else {
+  // //     // activeRows['result'] = idx;
+  // //     console.log(row, idx);
+  // //   }
 
-    console.log(activeRows);
+  // //   console.log(activeRows);
 
-  });
+  // // });
 
-  // update which rows are now active and which no longer are
+  // // update which rows are now active and which no longer are
   // for (let row in activeRows) {
   //   console.log(row);
   //   // add '.active' class to next row
@@ -419,7 +382,7 @@ function setNextActiveRows() {
   //   cell.addEventListener('click', handleNewColor)
   // });
 
-  // console.log(activeRowEls);
+  console.log(activeRowEls);
 
 
 }
