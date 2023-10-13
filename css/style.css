@@ -1,6 +1,6 @@
 * {
   --main-font: "fira code";
-  --answer-cell-size: clamp(4vh, calc(4.5vw + .1em), 5vw);
+  --answer-cell-size: 7vmin;
   font-family: var(--main-font, monospace);
   box-sizing: border-box;
   background-color: lightgray;
@@ -28,7 +28,6 @@ body>* {
   font-weight: 700;
   grid-template-columns: repeat(4, var(--answer-cell-size));
   grid-template-rows: var(--answer-cell-size);
-  margin-block-start: 2vmin;
   margin-block-end: 3vmin;
 }
 
@@ -40,17 +39,24 @@ body>* {
   align-items: center;
 }
 
-
 #gameBoard {
   background-color: lightgrey;
   padding-inline: 1em;
   display: flex;
   gap: 1em;
-  margin-block-end: 1em;
+  margin-block-end: auto;
 }
 
 h1 {
   letter-spacing: .2em;
+  border-block-end: .3vmin solid black;
+  padding-block: .2em;
+  width: 75vw;
+  margin-inline: auto;
+}
+
+h2#message {
+  margin-block: 0;
 }
 
 #guessRows,
@@ -58,7 +64,7 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5em;
+  gap: .5em;
 }
 
 #guessRows .row,
@@ -81,17 +87,17 @@ h1 {
   border: .2em solid black;
   padding: .4em;
   border-radius: 50%;
-  width: 4vmin;
-  height: 4vmin;
-  margin-inline: .5em;
+  width: 5vmin;
+  height: 5vmin;
+  margin-inline: .2em;
 }
 
 #resultRows .row .cell {
   border: .1em solid black;
   border-radius: 50%;
-  width: 2vmin;
-  height: 2vmin;
-  margin-inline: .2em;
+  width: 3vmin;
+  height: 3vmin;
+  margin-inline: .1em;
 }
 
 .row .cell {
@@ -129,12 +135,11 @@ h1 {
 }
 
 p#footer {
-  margin-block-start: auto;
   border-block-start: .2vmin solid #e747f1;
   width: 80%;
   margin-inline: auto;
-  padding-block-start: 1em;
-
+  padding-block: 3vmin;
+  position: relative;
 }
 
 /* for current active guess row */
@@ -149,7 +154,11 @@ p#footer {
   user-select: initial;
 }
 
-/* POSSIBLE dark-mode icebox feature */
+/* Stub for future dark-mode feature */
 @media (prefers-color-scheme: dark) {
-/*  */
+  * {
+    /* background-color: #232323; */
+    /* color: white; */
+    /* width: 100%; */
   }
+}
