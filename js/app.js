@@ -339,11 +339,7 @@ function renderResultMessage(message) {
 
 // render results row
 function renderResultsRow(arr) {
-  // REMOVE ME
-  console.log(arr);
-  console.log(roundResults);
-  console.log([...allRowEl[currentRound + 9].children]);
-
+  
   arr.forEach((word, idx) => {
 
     console.log(allRowEl[currentRound + 9]);
