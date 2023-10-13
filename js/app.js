@@ -155,7 +155,7 @@ function checkGuess() {
   // ==========================
 
   if (currentGuess.includes('initial')) {
-    renderResultMessage("FYI, that's not a complete guess…");
+    renderResultMessage("That's not a complete guess…");
     return;
   }
 
