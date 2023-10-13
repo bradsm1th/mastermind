@@ -21,7 +21,7 @@ You can [read more about it on Wikipedia](https://en.wikipedia.org/wiki/Mastermi
 
 <figure>
 <figcaption>Losing</figcaption>
-<img src="https://i.imgur.com/DBPFGJ5.png" alt="Losing" width="50%"/>
+<img src="https://i.imgur.com/KrxgqKA.png" alt="Losing" width="50%"/>
 </figure>
 
 <figure>
@@ -42,10 +42,10 @@ That’s it!
 ### How to *Play* the Game
 The rules are freely available across the internet, but here is my version of the rules:
 #### Setup
-- A random code of 4 colors is chosen.
+- A random code is chosen. There are 6 available colors and the code is 4 'colors' long.
+- Tap or click on  of 4 colors to cycle through each color until you are satisifed with your guess.
 - You have 10 guesses to crack the code.
-- For code and guesses, there are `6` colors available.
-- Codes are guaranteed to be **four** **discrete** colors—this means a valid code cannot have a blank space or a repeated color
+- Though *you* may use the same color multiple times in a single guess, codes are guaranteed to be **four** **discrete** colors. Tis means a valid code cannot have a blank space or any repeated colors.
 #### Feedback during gameplay
 - Each round, you earn:
 - `1` point if the color is correct but the location is not. This is indicated by a `white` result circle.
