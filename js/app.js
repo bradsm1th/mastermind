@@ -253,7 +253,6 @@ function makeNewCode() {
   codeToBreak = resultArray.flat();
 
   return codeToBreak;
-
 }
 
 // update next active rows to accept guesses
@@ -264,8 +263,8 @@ function setNextActiveRows() {
   // update guess rows
   allRowEl[previousGuessIndex].classList.remove('active');
   allRowEl[currentRound].classList.add('active');
-  // allRowEl[previousGuessIndex+10].classList.remove('active');
-  // allRowEl[currentRound+10].classList.add('active');
+  allRowEl[previousGuessIndex + 10].classList.remove('active');
+  allRowEl[currentRound + 10].classList.add('active');
 
   // see what needs to happen w/ results listeners
 
@@ -330,20 +329,6 @@ function renderRound() {
     // toggle "check guess" button
     disableCheckButton();
   }
-
-
-  // // ❗OLD
-  // if (currentRound === 0) {
-  //   currentRoundEl.innerHTML = (`Round ${currentRound + 1} of ${MAX_ROUNDS}`);
-  // } else if (currentRound > 0 && currentRound < 9) {
-  //   currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
-  // } else if (currentRound === MAX_ROUNDS) {
-  //   currentRoundEl.innerHTML = (`Round ${currentRound} of ${MAX_ROUNDS}`);
-  //   renderAnswer("Sorry, You Lose");
-  //   // toggle "check guess" button
-  //   disableCheckButton();
-  // }
-  // ❗OLD
 }
 
 // render results message
@@ -354,19 +339,27 @@ function renderResultMessage(message) {
 
 // render results row
 function renderResultsRow(arr) {
+  // REMOVE ME
+  console.log(arr);
+  console.log(roundResults);
+  console.log([...allRowEl[currentRound + 9].children]);
+
   arr.forEach((word, idx) => {
+
+    console.log(allRowEl[currentRound + 9]);
+
     switch (word) {
       case "exact":
-        activeResultEls[idx].style.backgroundColor = `${COLORS[1]}`;
-        activeResultEls[idx].innerText = '';
+        allRowEl[currentRound + 9].children[idx].style.backgroundColor = `${COLORS[1]}`;
+        allRowEl[currentRound + 9].children[idx].innerText = '';
         break;
       case "partial":
-        activeResultEls[idx].style.backgroundColor = `${COLORS[0]}`;
-        activeResultEls[idx].innerText = '';
+        allRowEl[currentRound + 9].children[idx].style.backgroundColor = `${COLORS[0]}`;
+        allRowEl[currentRound + 9].children[idx].innerText = '';
         break;
       case "wrong":
-        activeResultEls[idx].style.backgroundColor = `${COLORS[2]}`;
-        activeResultEls[idx].innerText = '';
+        allRowEl[currentRound + 9].children[idx].style.backgroundColor = `${COLORS[2]}`;
+        allRowEl[currentRound + 9].children[idx].innerText = '';
     }
   })
 }

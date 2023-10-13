@@ -51,8 +51,6 @@ h1 {
   letter-spacing: .2em;
   border-block-end: .3vmin solid black;
   padding-block: .2em;
-  width: 75vw;
-  margin-inline: auto;
 }
 
 h2#message {
@@ -136,10 +134,24 @@ h2#message {
 
 p#footer {
   border-block-start: .2vmin solid #e747f1;
-  width: 80%;
-  margin-inline: auto;
   padding-block: 3vmin;
   position: relative;
+  
+  /* letter-spacing: .2em; */
+  /* border-block-end: .3vmin solid black; */
+  /* padding-block: .2em; */
+}
+p#footer a {
+  font-weight: 500;
+  font-size: 1.2em;
+  text-decoration: none;
+  color: initial;
+}
+p#footer a:hover {
+  font-weight: 500;
+  color: blue;
+  transition: all .2s ease-in;
+  text-decoration: underline;
 }
 
 /* for current active guess row */
