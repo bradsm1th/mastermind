@@ -44,7 +44,7 @@ body>* {
   padding-inline: 1em;
   display: flex;
   gap: 1em;
-  margin-block-end: 1em;
+  margin-block-end: auto;
 }
 
 h1 {
@@ -135,12 +135,11 @@ h2#message {
 }
 
 p#footer {
-  margin-block-start: auto;
   border-block-start: .2vmin solid #e747f1;
   width: 80%;
   margin-inline: auto;
-  padding-block-start: 1em;
-
+  padding-block: 3vmin;
+  position: relative;
 }
 
 /* for current active guess row */
