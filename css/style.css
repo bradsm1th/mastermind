@@ -1,6 +1,7 @@
 * {
   --main-font: "fira code";
   --answer-cell-size: 7vmin;
+  --guess-cell-size: 5vmin;
   font-family: var(--main-font, monospace);
   box-sizing: border-box;
   background-color: lightgray;
@@ -85,16 +86,16 @@ h2#message {
   border: .2em solid black;
   padding: .4em;
   border-radius: 50%;
-  width: 5vmin;
-  height: 5vmin;
+  width: var(--guess-cell-size);
+  height: var(--guess-cell-size);
   margin-inline: .2em;
 }
 
 #resultRows .row .cell {
   border: .1em solid black;
   border-radius: 50%;
-  width: 3vmin;
-  height: 3vmin;
+  width: calc(var(--guess-cell-size) * .6);
+  height: calc(var(--guess-cell-size) * .6);
   margin-inline: .1em;
 }
 
@@ -136,17 +137,15 @@ p#footer {
   border-block-start: .2vmin solid #e747f1;
   padding-block: 3vmin;
   position: relative;
-  
-  /* letter-spacing: .2em; */
-  /* border-block-end: .3vmin solid black; */
-  /* padding-block: .2em; */
 }
+
 p#footer a {
   font-weight: 500;
   font-size: 1.2em;
   text-decoration: none;
   color: initial;
 }
+
 p#footer a:hover {
   font-weight: 500;
   color: blue;
@@ -166,11 +165,65 @@ p#footer a:hover {
   user-select: initial;
 }
 
+
+/* ====================================
 /* Stub for future dark-mode feature */
+/* ==================================*/
 @media (prefers-color-scheme: dark) {
   * {
     /* background-color: #232323; */
     /* color: white; */
     /* width: 100%; */
+  }
+}
+
+
+/* ====================================
+/* Stub for better mobile layout */
+/* ==================================*/
+@media (max-width: 576px) {
+
+  #theAnswer {
+    gap: 6vmin;
+    font-size: 3vmin;
+    font-weight: 700;
+    grid-template-columns: repeat(4, calc(var(--answer-cell-size) * 2));
+    grid-template-rows: calc(var(--answer-cell-size) * 2);
+  }
+
+  #buttons {
+    gap: 2em;
+    font-size: clamp(14px, 2vmin, 50px);
+    /* margin-block-end: 1em; */
+  }
+
+  #buttons>*:hover {
+    box-shadow: none;
+  }
+  #buttons>*:active {
+    color: #d3d3d3;
+    background-color: #2c2c2c;
+    box-shadow: .2em .2em 0vmin 0vmin blue;
+  }
+
+  #guessRows .row .cell {
+    width: calc(var(--guess-cell-size) * 2);
+    height: calc(var(--guess-cell-size) * 2);
+  }
+
+  #resultRows .row .cell {
+    width: calc(var(--guess-cell-size) * 1.1);
+    height: calc(var(--guess-cell-size) * 1.1);
+  }
+
+  p#footer {
+    border-block-start: .2vmin solid #e747f1;
+    padding-block: 3vmin;
+    /* position: relative; */
+    /* bottom: -5em; */
+    width: 80%;
+    margin-inline: auto;
+    /* font-size: 90%; */
+    margin-block-end: -10vh;
   }
 }
