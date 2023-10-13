@@ -43,7 +43,7 @@ That’s it!
 The rules are freely available across the internet, but here is my version of the rules:
 #### Setup
 - A random code is chosen. There are 6 available colors and the code is 4 'colors' long.
-- Tap or click on a cell s to cycle through each color until you are satisifed with your guess.
+- Tap or click on a cell to cycle through each color until you are satisifed with your guess.
 - You have 10 guesses to crack the code.
 - Though *you* may use the same color multiple times in a single guess, codes are guaranteed to be **four** **discrete** colors. This means a valid code cannot have a blank space or any repeated colors.
 #### Feedback during gameplay
