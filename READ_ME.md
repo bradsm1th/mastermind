@@ -10,23 +10,23 @@ You can [read more about it on Wikipedia](https://en.wikipedia.org/wiki/Mastermi
 ### Screenshots
 
 <figure>
-<img src="https://i.imgur.com/bcFB6v8.png" alt="After calling `init()`" width="50%"/>
 <figcaption><small>After calling <code>init()</code></small></figcaption>
+<img src="https://i.imgur.com/bcFB6v8.png" alt="After calling `init()`" width="50%"/>
 </figure>
 
 <figure>
-<img src="https://i.imgur.com/Jmitmdt.png" alt="Winning" width="50%"/>
 <figcaption>Winning</figcaption>
+<img src="https://i.imgur.com/Jmitmdt.png" alt="Winning" width="50%"/>
 </figure>
 
 <figure>
-<img src="https://i.imgur.com/DBPFGJ5.png" alt="Losing" width="50%"/>
 <figcaption>Losing</figcaption>
+<img src="https://i.imgur.com/DBPFGJ5.png" alt="Losing" width="50%"/>
 </figure>
 
 <figure>
-<img src="https://i.imgur.com/qSShKAq.jpg" alt="Original *Mastermind* game (inspiration for my design)" width="50%"/>
 <figcaption>Original *Mastermind* game (inspiration for my design)</figcaption>
+<img src="https://i.imgur.com/qSShKAq.jpg" alt="Original *Mastermind* game (inspiration for my design)" width="50%"/>
 </figure>
 
 ### Technologies Used
@@ -48,9 +48,9 @@ The rules are freely available across the internet, but here is my version of th
 - Codes are guaranteed to be **four** **discrete** colors—this means a valid code cannot have a blank space or a repeated color
 #### Feedback during gameplay
 - Each round, you earn:
-	- `1` point if the color is correct but the location is not. This is indicated by a `white` result circle.
-	- `2` points if the the color and its location are correct. This is indicated by a `red` result circle.
-	- `0` points if the color is not in the code. This is indicated by a `black`[^1] result circle.
+- `1` point if the color is correct but the location is not. This is indicated by a `white` result circle.
+- `2` points if the the color and its location are correct. This is indicated by a `red` result circle.
+- `0` points if the color is not in the code. This is indicated by a `black`[^1] result circle.
 - If you do not guess the code in 10 guesses, the other player earns `11` points.
 
 #### Notes
