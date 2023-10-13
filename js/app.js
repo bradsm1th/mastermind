@@ -229,9 +229,6 @@ function handleNewColor(evt) {
 function makeNewCode() {
   // make a copy of keys in COLORS
   let masterCopy = [...COLORS];
-  masterCopy.forEach(color => {
-
-  });
 
   // get random number bt 0-5 (the length of the COLORS array)
   function getRandIdx() {
