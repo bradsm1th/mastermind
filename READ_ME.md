@@ -10,22 +10,22 @@ You can [read more about it on Wikipedia](https://en.wikipedia.org/wiki/Mastermi
 ### Screenshots
 
 <figure>
-<img src="1%20init.png" alt="After calling `init()`" width="50%"/>
+<img src="https://i.imgur.com/bcFB6v8.png" alt="After calling `init()`" width="50%"/>
 <figcaption>After calling `init()`</figcaption>
 </figure>
 
 <figure>
-<img src="2%20you%20win.png" alt="Winning" width="50%"/>
+<img src="https://i.imgur.com/Jmitmdt.png" alt="Winning" width="50%"/>
 <figcaption>Winning</figcaption>
 </figure>
 
 <figure>
-<img src="you%20lose.png" alt="Losing" width="50%"/>
+<img src="https://i.imgur.com/DBPFGJ5.png" alt="Losing" width="50%"/>
 <figcaption>Losing</figcaption>
 </figure>
 
 <figure>
-<img src="mastermind-original-game.jpeg" alt="Original *Mastermind* game (inspiration for my design)" width="50%"/>
+<img src="https://i.imgur.com/qSShKAq.jpg" alt="Original *Mastermind* game (inspiration for my design)" width="50%"/>
 <figcaption>Original *Mastermind* game (inspiration for my design)</figcaption>
 </figure>
 
