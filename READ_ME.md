@@ -11,7 +11,7 @@ You can [read more about it on Wikipedia](https://en.wikipedia.org/wiki/Mastermi
 
 <figure>
 <img src="https://i.imgur.com/bcFB6v8.png" alt="After calling `init()`" width="50%"/>
-<figcaption>After calling `init()`</figcaption>
+<figcaption><small>After calling <code>init()</code></small></figcaption>
 </figure>
 
 <figure>
