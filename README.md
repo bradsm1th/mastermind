@@ -1,4 +1,4 @@
-# Unit 1 Project READ_ME
+# Mastermind (Browser-based game)
 
 
 ## Overview
